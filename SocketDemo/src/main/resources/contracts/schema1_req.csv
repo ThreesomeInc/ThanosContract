@@ -1,0 +1,3 @@
+id,name      ,type,length,regex
+1 ,"flag"    ,CHAR,1     ,                   ,"0|1",
+2 ,"TranCode",CHAR,2     ,"AA|BB|CC|DD|EE|FF"
