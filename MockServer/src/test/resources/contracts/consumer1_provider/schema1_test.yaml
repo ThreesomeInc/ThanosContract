@@ -1,9 +1,9 @@
 name: test case 1
 req:
-  flag: 0
+  flag: 1
   TranCode: AA
 res:
-  Status: 200
+  Status: 404
   ResponseTime: 20191212
 
 ---
@@ -11,7 +11,7 @@ res:
 name: test case 2
 req:
   flag: 1
-  TranCode: AA
+  TranCode: FF
 res:
-  Status: 404
-  ResponseTime: 20191212
+  Status: 500
+  ResponseTime: 20191213
