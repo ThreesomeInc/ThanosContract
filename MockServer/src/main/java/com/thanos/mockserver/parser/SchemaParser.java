@@ -6,7 +6,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SchemaParser {
@@ -30,7 +30,7 @@ public class SchemaParser {
                 .withIgnoreEmptyLines().withIgnoreSurroundingSpaces().withIgnoreHeaderCase()
                 .parse(in);
 
-        List<Schema> result = new ArrayList<>();
+        List<Schema> result = new LinkedList<>();
 
         for (CSVRecord record : records) {
             Integer id = Integer.valueOf(record.get("id").trim());

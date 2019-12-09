@@ -10,9 +10,9 @@ import lombok.*;
 @EqualsAndHashCode
 public class Schema {
 
-    Integer id;
-    String name;
-    String type;
-    Integer length;
-    String regex;
+    private Integer id;
+    private String name;
+    private String type;
+    private Integer length;
+    private String regex;
 }
