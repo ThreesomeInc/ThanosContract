@@ -1,5 +1,6 @@
 package com.thanos.mockserver.parser;
 
+import com.thanos.mockserver.handler.Request;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -25,5 +26,15 @@ public class Contract {
             }
         }
         return result;
+    }
+
+    public boolean match(Request request) {
+        // TODO
+        return false;
+    }
+
+    public String buildResponse() {
+        // TODO
+        return null;
     }
 }
