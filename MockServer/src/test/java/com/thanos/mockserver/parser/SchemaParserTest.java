@@ -18,7 +18,7 @@ public class SchemaParserTest {
         final List<Schema> result = schemaParser.parse(path);
 
         assertEquals(2, result.size());
-        final Schema schema1 = new Schema(1, "Flag", "CHAR", 1, "0|1");
+        final Schema schema1 = new Schema(1, "Flag", "NUM", 1, "0|1");
         final Schema schema2 = new Schema(2, "TranCode", "CHAR", 2, "AA|BB|CC|DD|EE|FF");
         assertTrue(result.contains(schema1));
         assertTrue(result.contains(schema2));
@@ -32,7 +32,7 @@ public class SchemaParserTest {
         final List<Schema> result = schemaParser.parseReq(schemaName);
 
         assertEquals(2, result.size());
-        final Schema schema1 = new Schema(1, "Flag", "CHAR", 1, "0|1");
+        final Schema schema1 = new Schema(1, "Flag", "NUM", 1, "0|1");
         final Schema schema2 = new Schema(2, "TranCode", "CHAR", 2, "AA|BB|CC|DD|EE|FF");
         assertTrue(result.contains(schema1));
         assertTrue(result.contains(schema2));
