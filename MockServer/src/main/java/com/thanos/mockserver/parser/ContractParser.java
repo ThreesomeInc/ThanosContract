@@ -23,12 +23,4 @@ public class ContractParser {
         return Contract.buildFrom(contractList);
     }
 
-
-    public Contract parseSingle(String path, String fileName) {
-        InputStream inputStream = this.getClass()
-                .getClassLoader()
-                .getResourceAsStream(path + fileName);
-        return yaml.load(inputStream);
-
-    }
 }

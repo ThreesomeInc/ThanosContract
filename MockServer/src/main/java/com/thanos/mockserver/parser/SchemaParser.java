@@ -11,7 +11,17 @@ import java.util.List;
 
 public class SchemaParser {
 
-    public List<Schema> parse(String path) throws IOException {
+    private static final String BASE_PATH = "src/test/resources/contracts/";
+
+    public List<Schema> parseReq(String schema) throws IOException {
+        return parse(BASE_PATH + schema + "_req.csv");
+    }
+
+    public List<Schema> parseRes(String schema) throws IOException {
+        return parse(BASE_PATH + schema + "_res.csv");
+    }
+
+    List<Schema> parse(String path) throws IOException {
 
         Reader in = new FileReader(path);
 

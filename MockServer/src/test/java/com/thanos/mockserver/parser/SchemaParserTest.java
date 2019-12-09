@@ -23,4 +23,18 @@ public class SchemaParserTest {
         assertTrue(result.contains(schema1));
         assertTrue(result.contains(schema2));
     }
+
+    @Test
+    public void parseReq() throws IOException {
+        final String schemaName = "schema1";
+
+        final SchemaParser schemaParser = new SchemaParser();
+        final List<Schema> result = schemaParser.parseReq(schemaName);
+
+        assertEquals(2, result.size());
+        final Schema schema1 = new Schema(1, "Flag", "CHAR", 1, "0|1");
+        final Schema schema2 = new Schema(2, "TranCode", "CHAR", 2, "AA|BB|CC|DD|EE|FF");
+        assertTrue(result.contains(schema1));
+        assertTrue(result.contains(schema2));
+    }
 }

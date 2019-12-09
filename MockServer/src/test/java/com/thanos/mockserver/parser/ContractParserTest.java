@@ -25,17 +25,4 @@ public class ContractParserTest {
         assertTrue(result.getRes().containsKey("ResponseTime"));
     }
 
-    @Test
-    public void parse_single() {
-        final ContractParser contractParser = new ContractParser();
-
-        final Contract contract = contractParser.parseSingle("contracts/consumer0_provider/", "schema1_test.yml");
-
-        assertEquals("test case 1", contract.getName());
-        assertTrue(contract.getReq().containsKey("Flag"));
-        assertTrue(contract.getReq().containsKey("TranCode"));
-        assertTrue(contract.getRes().containsKey("Status"));
-        assertTrue(contract.getRes().containsKey("ResponseTime"));
-
-    }
 }
