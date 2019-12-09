@@ -16,16 +16,18 @@ public class SchemaParser {
         Reader in = new FileReader(path);
 
         Iterable<CSVRecord> records = CSVFormat.RFC4180
-                .withFirstRecordAsHeader().withIgnoreEmptyLines().parse(in);
+                .withFirstRecordAsHeader()
+                .withIgnoreEmptyLines().withIgnoreSurroundingSpaces().withIgnoreHeaderCase()
+                .parse(in);
 
         List<Schema> result = new ArrayList<>();
 
         for (CSVRecord record : records) {
-            Integer id = Integer.valueOf(record.get("id"));
-            String name = record.get("name");
-            String type = record.get("type");
-            Integer length = Integer.valueOf(record.get("length"));
-            String regex = record.get("regex");
+            Integer id = Integer.valueOf(record.get("id").trim());
+            String name = record.get("name").trim();
+            String type = record.get("type").trim();
+            Integer length = Integer.valueOf(record.get("length").trim());
+            String regex = record.get("regex").trim();
 
             result.add(new Schema(id, name, type, length, regex));
         }

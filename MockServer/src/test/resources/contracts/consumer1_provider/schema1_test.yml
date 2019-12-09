@@ -1,16 +1,14 @@
 name: test case 1
 req:
-  flag: 1
+  Flag: 1
   TranCode: AA
 res:
   Status: 404
   ResponseTime: 20191212
-
 ---
-
 name: test case 2
 req:
-  flag: 1
+  Flag: 1
   TranCode: FF
 res:
   Status: 500
