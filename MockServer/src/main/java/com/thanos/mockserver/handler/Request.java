@@ -1,4 +1,4 @@
-package com.thanos.mockserver.parser;
+package com.thanos.mockserver.handler;
 
 import lombok.*;
 
@@ -10,5 +10,5 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Request {
-    Map<String, Object> fields;
+    private Map<String, Object> fields;
 }

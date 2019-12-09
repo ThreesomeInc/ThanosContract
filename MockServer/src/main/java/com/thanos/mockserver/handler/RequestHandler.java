@@ -1,12 +1,16 @@
-package com.thanos.mockserver.parser;
+package com.thanos.mockserver.handler;
 
 import com.thanos.mockserver.exception.ParseException;
+import com.thanos.mockserver.parser.Schema;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
-public class RequestParser {
+@Slf4j
+public class RequestHandler {
 
     public Request parseByTypeAndLength(String inputRequest, List<Schema> requestSchemaList) {
         Map<String, Object> fields = new HashMap<>();
@@ -26,7 +30,7 @@ public class RequestParser {
                     startIndex += requestSchema.getLength();
 
                 } else {
-                    throw new ParseException("Invalid Request Schema Type");
+                    throw new ParseException("Invalid Request Schema");
                 }
             }
         } catch (StringIndexOutOfBoundsException stringIndexEx) {
@@ -37,5 +41,21 @@ public class RequestParser {
 
 
         return new Request(fields);
+    }
+
+    public Boolean validateByRegex(Request request, List<Schema> requestSchemaList) {
+        for (Schema schema : requestSchemaList) {
+            if (request.getFields().containsKey(schema.getName())) {
+                Object content = request.getFields().get(schema.getName());
+                final boolean matches = Pattern.matches(schema.getRegex(), content.toString());
+                if (!matches) {
+                    log.warn("Field {} mismatch with schema {}", content.toString(), schema);
+                    return false;
+                }
+            } else {
+                throw new ParseException("Field missing in request: " + schema.toString());
+            }
+        }
+        return true;
     }
 }
