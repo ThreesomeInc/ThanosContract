@@ -7,7 +7,12 @@
 
 ### Action
 
+#### 启动mock server [TODO]
+* [TODO] 扫描resource/contracts下面所有文件夹
+* [TODO] 每个yml契约起一个thread处理socket request/response,该yml内所有契约load到List<Contract>, List<Schema>
+
 #### 每个port对应的Thread：
-* 收到request，根据对应的schema去拆解，并根据regex验证field格式
-* 匹配所有同一个schema下，这对consumer-provider下的契约列表，找出第一个匹配的
-* 根据契约生成response并返回
+
+* [DONE] 收到request，根据对应的schema去拆解，并根据regex验证field格式
+* [TODO] 匹配所有同一个schema下，这对consumer-provider下的契约列表，找出第一个匹配的
+* [TODO] 根据契约生成response并返回
