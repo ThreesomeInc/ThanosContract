@@ -12,7 +12,7 @@ public class SchemaParserTest {
 
     @Test
     public void parse() throws IOException {
-        final String path = "src/test/resources/contracts/schema1_req.csv";
+        final String path = "/schemas/schema1_req.csv";
         final SchemaParser schemaParser = new SchemaParser();
 
         final List<Schema> result = schemaParser.parse(path);

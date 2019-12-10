@@ -3,15 +3,15 @@ package com.thanos.mockserver.parser;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
 
 public class SchemaParser {
 
-    private static final String BASE_PATH = "src/test/resources/contracts/";
+    private static final String BASE_PATH = "/schemas/";
 
     public List<Schema> parseReq(String schema) throws IOException {
         return parse(BASE_PATH + schema + "_req.csv");
@@ -23,7 +23,7 @@ public class SchemaParser {
 
     List<Schema> parse(String path) throws IOException {
 
-        Reader in = new FileReader(path);
+        Reader in = new InputStreamReader(getClass().getResourceAsStream(path));
 
         Iterable<CSVRecord> records = CSVFormat.RFC4180
                 .withFirstRecordAsHeader()
