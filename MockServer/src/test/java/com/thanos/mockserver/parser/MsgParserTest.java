@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class MsgHandlerTest {
+public class MsgParserTest {
 
     MsgParser msgParser;
     List<Schema> schema1;
