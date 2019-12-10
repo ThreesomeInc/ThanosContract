@@ -14,5 +14,5 @@
 #### 每个port对应的Thread：
 
 * [DONE] 收到request，根据对应的schema去拆解，并根据regex验证field格式
-* [TODO] 匹配所有同一个schema下，这对consumer-provider下的契约列表，找出第一个匹配的
-* [TODO] 根据契约生成response并返回
+* [DONE] 匹配所有同一个schema下，这对consumer-provider下的契约列表，找出第一个匹配的
+* [DONE] 根据契约生成response并返回(不做校验)

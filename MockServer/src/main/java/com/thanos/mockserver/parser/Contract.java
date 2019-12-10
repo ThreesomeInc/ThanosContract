@@ -16,7 +16,7 @@ import java.util.Map;
 public class Contract {
 
     String name;
-    Map<String, Object> req;
+    LinkedHashMap<String, Object> req;
     LinkedHashMap<String, Object> res;
 
     static List<Contract> buildFrom(Iterable<Object> ymlResult) {
