@@ -1,0 +1,15 @@
+name: test case 1
+req:
+  Flag: 1
+  TranCode: AA
+res:
+  Status: 404
+  ResponseTime: 20191212
+---
+name: test case 2
+req:
+  Flag: 1
+  TranCode: FF
+res:
+  Status: 500
+  ResponseTime: 20191213

@@ -1,6 +1,7 @@
 package com.thanos.mockserver.parser;
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class Contract {
 
     String name;
@@ -52,6 +54,7 @@ public class Contract {
             stringBuilder.append(entry.getValue());
         }
 
+        log.info("Response : " + stringBuilder.toString());
         return stringBuilder.toString();
     }
 }
