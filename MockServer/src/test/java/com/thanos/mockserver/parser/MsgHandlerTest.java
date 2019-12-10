@@ -1,31 +1,29 @@
-package com.thanos.mockserver.handler;
+package com.thanos.mockserver.parser;
 
 import com.thanos.mockserver.exception.ParseException;
-import com.thanos.mockserver.parser.Schema;
-import com.thanos.mockserver.parser.SchemaParser;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class RequestHandlerTest {
+public class MsgHandlerTest {
 
-    RequestHandler requestHandler;
+    MsgParser msgParser;
+    List<Schema> schema1;
 
     @Before
     public void setUp() throws Exception {
         final SchemaParser schemaParser = new SchemaParser();
-        List<Schema> schema1 = schemaParser.parseReq("schema1");
-        requestHandler = new RequestHandler(schema1, new ArrayList<>());
+        schema1 = schemaParser.parseReq("schema1");
+        msgParser = new MsgParser();
     }
 
     @Test
     public void parse_health() throws IOException {
-        final Request parse = requestHandler.parseByTypeAndLength("0AA");
+        final Msg parse = msgParser.parseByTypeAndLength("0AA", schema1);
 
         assertEquals(2, parse.getFields().size());
         assertTrue(parse.getFields().containsKey("TranCode"));
@@ -36,31 +34,31 @@ public class RequestHandlerTest {
 
     @Test(expected = ParseException.class)
     public void parse_excpetion_when_too_short() throws IOException {
-        final Request parse = requestHandler.parseByTypeAndLength("0A");
+        final Msg parse = msgParser.parseByTypeAndLength("0A", schema1);
     }
 
     @Test
     public void parse_too_long_still_working() throws IOException {
-        final Request parse = requestHandler.parseByTypeAndLength("0AAB");
+        final Msg parse = msgParser.parseByTypeAndLength("0AAB", schema1);
         assertEquals(2, parse.getFields().size());
     }
 
     @Test(expected = ParseException.class)
     public void parse_exception_when_not_num() throws IOException {
-        final Request parse = requestHandler.parseByTypeAndLength("AAA");
+        final Msg parse = msgParser.parseByTypeAndLength("AAA", schema1);
     }
 
     @Test
     public void validateByRegex_health() {
-        final Request request = requestHandler.parseByTypeAndLength("0AA");
-        final Boolean result = request.validateByRegex(requestHandler.getRequestSchemaList());
+        final Msg msg = msgParser.parseByTypeAndLength("0AA", schema1);
+        final Boolean result = msg.validateByRegex(schema1);
         assertTrue(result);
     }
 
     @Test
     public void validateByRegex_invalid() {
-        final Request request = requestHandler.parseByTypeAndLength("0ZZ");
-        final Boolean result = request.validateByRegex(requestHandler.getRequestSchemaList());
+        final Msg msg = msgParser.parseByTypeAndLength("0ZZ", schema1);
+        final Boolean result = msg.validateByRegex(schema1);
         assertFalse(result);
     }
 }

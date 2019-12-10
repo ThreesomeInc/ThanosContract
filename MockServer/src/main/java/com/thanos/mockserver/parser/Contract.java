@@ -1,6 +1,5 @@
 package com.thanos.mockserver.parser;
 
-import com.thanos.mockserver.handler.Request;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -30,10 +29,10 @@ public class Contract {
     }
 
     // TODO: Only support fix value in contract now
-    public boolean match(Request request) {
+    public boolean match(Msg msg) {
         for (String key : req.keySet()) {
-            if (request.getFields().containsKey(key)) {
-                final Object requestContent = request.getFields().get(key);
+            if (msg.getFields().containsKey(key)) {
+                final Object requestContent = msg.getFields().get(key);
                 if (!req.get(key).equals(requestContent)) {
                     return false;
                 }

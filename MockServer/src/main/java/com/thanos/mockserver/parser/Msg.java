@@ -1,7 +1,6 @@
-package com.thanos.mockserver.handler;
+package com.thanos.mockserver.parser;
 
 import com.thanos.mockserver.exception.ParseException;
-import com.thanos.mockserver.parser.Schema;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,11 +14,11 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-public class Request {
+public class Msg {
 
     private Map<String, Object> fields;
 
-    Boolean validateByRegex(List<Schema> schemaList) {
+    public Boolean validateByRegex(List<Schema> schemaList) {
         for (Schema schema : schemaList) {
             if (fields.containsKey(schema.getName())) {
                 Object content = fields.get(schema.getName());
