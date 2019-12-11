@@ -1,12 +1,13 @@
 package com.thanos.mockserver.parser;
 
+import com.mifmif.common.regex.Generex;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -46,12 +47,18 @@ public class Contract {
     }
 
     // Directly combine from contract without validation
-    public String buildResponse() {
+    public String buildResponse(List<Schema> responseSchema) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Object o : res.entrySet()) {
-            Map.Entry entry = (Map.Entry) o;
-            stringBuilder.append(entry.getValue());
+        Collections.sort(responseSchema);
+
+        for (Schema response : responseSchema) {
+            if (res.containsKey(response.getName())) {
+                stringBuilder.append(res.get(response.getName()));
+            } else {
+                Generex generex = new Generex(response.getRegex());
+                stringBuilder.append(generex.random());
+            }
         }
 
         log.info("Response : " + stringBuilder.toString());

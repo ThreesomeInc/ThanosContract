@@ -16,6 +16,9 @@
 * 匹配所有同一个schema下，这对consumer-provider下的契约列表，找出第一个匹配的
 * 根据契约生成response并返回(不做校验)
 
+#### Enhance
+* [Done] Response里面不需要指定所有field，只指定某些需要固定值的field，其他会根据schema的正则随机生成。
+
 
 ### Long Term [TODO]
 

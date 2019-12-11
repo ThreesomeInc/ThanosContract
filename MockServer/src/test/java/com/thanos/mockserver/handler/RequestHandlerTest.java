@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RequestHandlerTest {
 
@@ -21,7 +22,7 @@ public class RequestHandlerTest {
     @Test
     public void process_match() {
         final String response = requestHandler.process("1AA");
-        assertEquals("40420191212", response);
+        assertTrue(response.startsWith("40420191212"));
     }
 
     @Test

@@ -36,4 +36,8 @@ public class RegisteredRecord {
         return new SchemaParser().parseReq(schemaName);
     }
 
+    public List<Schema> getResSchemas() throws IOException {
+        return new SchemaParser().parseRes(schemaName);
+    }
+
 }

@@ -20,6 +20,7 @@ public class RequestHandler implements Runnable {
     private static final String MISMATCH_RESPONSE = "Incoming request does not match any existing contract";
 
     private List<Schema> requestSchemaList;
+    private List<Schema> responseSchemaList;
     private List<Contract> contractList;
     private RegisteredRecord registeredRecord;
 
@@ -62,6 +63,7 @@ public class RequestHandler implements Runnable {
         try {
             contractList = registeredRecord.getContracts();
             requestSchemaList = registeredRecord.getReqSchemas();
+            responseSchemaList = registeredRecord.getResSchemas();
         } catch (IOException e) {
             throw new ParseException("Fail to init RequesHandler", e);
         }
@@ -74,7 +76,7 @@ public class RequestHandler implements Runnable {
         if (request.validateByRegex(requestSchemaList)) {
             for (Contract contract : contractList) {
                 if (contract.match(request)) {
-                    return contract.buildResponse();
+                    return contract.buildResponse(responseSchemaList);
                 }
             }
         }
