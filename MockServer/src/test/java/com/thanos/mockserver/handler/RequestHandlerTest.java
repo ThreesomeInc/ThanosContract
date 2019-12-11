@@ -15,6 +15,7 @@ public class RequestHandlerTest {
         final RegisteredRecord registeredRecord =
                 new RegisteredRecord("consumer1", "provider", "schema1");
         requestHandler = new RequestHandler(registeredRecord);
+        requestHandler.init();
     }
 
     @Test

@@ -58,7 +58,7 @@ public class RequestHandler implements Runnable {
         return ss;
     }
 
-    private void init() {
+    void init() {
         try {
             contractList = registeredRecord.getContracts();
             requestSchemaList = registeredRecord.getReqSchemas();
