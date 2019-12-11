@@ -1,4 +1,4 @@
-## Demo Provider & Consumer
+## Demo provider.ProviderMain & Consumer
 
 **Target to simulate:**
 
