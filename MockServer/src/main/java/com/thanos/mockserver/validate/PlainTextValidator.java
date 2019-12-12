@@ -18,4 +18,8 @@ public class PlainTextValidator implements Validator {
     public boolean validate(String actualValue) {
         return Objects.equals(expectedValue, actualValue);
     }
+
+    public String getExpectedValue() {
+        return this.expectedValue;
+    }
 }

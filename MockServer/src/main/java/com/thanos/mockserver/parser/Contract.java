@@ -1,7 +1,13 @@
 package com.thanos.mockserver.parser;
 
 import com.mifmif.common.regex.Generex;
-import lombok.*;
+import com.thanos.mockserver.validate.PlainTextValidator;
+import com.thanos.mockserver.validate.RegexValidator;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -55,10 +61,11 @@ public class Contract {
         for (Schema response : responseSchema) {
             if (res.containsKey(response.getName())) {
                 stringBuilder.append(res.get(response.getName()));
-            } else {
-//                Generex generex = new Generex(response.getRegex());
-//                stringBuilder.append(generex.random());
-                //TODO: to confirm this logic
+            } else if (response.getValidator() instanceof RegexValidator) {
+                Generex generex = new Generex(((RegexValidator) response.getValidator()).getRegexp());
+                stringBuilder.append(generex.random());
+            } else if (response.getValidator() instanceof PlainTextValidator) {
+                stringBuilder.append(((PlainTextValidator) response.getValidator()).getExpectedValue());
             }
         }
 
