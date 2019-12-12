@@ -1,5 +1,6 @@
 package com.thanos.mockserver.parser;
 
+import com.thanos.mockserver.lex.Lexer;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
@@ -31,15 +32,16 @@ public class SchemaParser {
                 .parse(in);
 
         List<Schema> result = new LinkedList<>();
+        Lexer lexer = new Lexer();
 
         for (CSVRecord record : records) {
             Integer id = Integer.valueOf(record.get("id").trim());
             String name = record.get("name").trim();
             String type = record.get("type").trim();
             Integer length = Integer.valueOf(record.get("length").trim());
-            String regex = record.get("regex").trim();
+            String validation = record.get("validation").trim();
 
-            result.add(new Schema(id, name, type, length, regex));
+            result.add(new Schema(id, name, type, length, lexer.Lex(validation)));
         }
 
         return result;

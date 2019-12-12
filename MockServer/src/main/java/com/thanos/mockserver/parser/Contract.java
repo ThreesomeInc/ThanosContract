@@ -56,8 +56,9 @@ public class Contract {
             if (res.containsKey(response.getName())) {
                 stringBuilder.append(res.get(response.getName()));
             } else {
-                Generex generex = new Generex(response.getRegex());
-                stringBuilder.append(generex.random());
+//                Generex generex = new Generex(response.getRegex());
+//                stringBuilder.append(generex.random());
+                //TODO: to confirm this logic
             }
         }
 

@@ -1,5 +1,6 @@
 package com.thanos.mockserver.parser;
 
+import com.thanos.mockserver.validate.Validator;
 import lombok.*;
 
 @Getter
@@ -7,14 +8,14 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"validator"})
 public class Schema implements Comparable<Schema> {
 
     private Integer id;
     private String name;
     private String type;
     private Integer length;
-    private String regex;
+    private Validator validator;
 
     @Override
     public int compareTo(Schema anotherSchema) {

@@ -1,4 +1,4 @@
-id,name      ,type  ,length,regex
-1 ,"Flag"    ,"NUM" ,1     ,"0|1"
-2 ,"TranCode","CHAR",2     ,"AA|BB|CC|DD|EE|FF"
+id,name      ,type  ,length,validation
+1 ,"Flag"    ,"NUM" ,1     ,"regex(0|1)"
+2 ,"TranCode","CHAR",2     ,"regex(AA|BB|CC|DD|EE|FF)"
 

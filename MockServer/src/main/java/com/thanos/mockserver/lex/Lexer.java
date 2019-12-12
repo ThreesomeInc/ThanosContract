@@ -5,8 +5,10 @@ import com.thanos.mockserver.validate.FuncValidator;
 import com.thanos.mockserver.validate.PlainTextValidator;
 import com.thanos.mockserver.validate.RegexValidator;
 import com.thanos.mockserver.validate.Validator;
+import org.apache.commons.lang3.time.FastDateFormat;
 import sun.misc.FloatingDecimal;
 
+import java.text.ParseException;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -27,7 +29,17 @@ public class Lexer {
                 } catch (NumberFormatException e) {
                     return false;
                 }
-            }).build();
+            })
+            .put("isDatetime", (actual) -> {
+                final String YMD_HMS = "yyyy-MM-dd HH:mm:ss";
+                try {
+                    FastDateFormat.getInstance(YMD_HMS).parse(actual);
+                } catch (ParseException e) {
+                    return false;
+                }
+                return true;
+            })
+            .build();
 
     public Validator Lex(String value) {
         if (value.matches(PATTERN_IN_STRING)) {

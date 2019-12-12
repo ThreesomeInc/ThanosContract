@@ -22,8 +22,7 @@ public class Msg {
         for (Schema schema : schemaList) {
             if (fields.containsKey(schema.getName())) {
                 Object content = fields.get(schema.getName());
-                final boolean matches = Pattern.matches(schema.getRegex(), content.toString());
-                if (!matches) {
+                if (!schema.getValidator().validate(content.toString())) {
                     log.warn("Field {} mismatch with schema {}", content.toString(), schema);
                     return false;
                 }
