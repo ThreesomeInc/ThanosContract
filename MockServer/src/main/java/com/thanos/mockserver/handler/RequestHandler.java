@@ -1,5 +1,6 @@
 package com.thanos.mockserver.handler;
 
+import com.google.common.io.CharStreams;
 import com.thanos.mockserver.exception.ParseException;
 import com.thanos.mockserver.parser.Contract;
 import com.thanos.mockserver.parser.Msg;
@@ -16,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class RequestHandler implements Runnable {
 
-    private static final String CRLF = "\n";
+    private static final String CRLF = System.lineSeparator();
     private static final String MISMATCH_RESPONSE = "Incoming request does not match any existing contract";
 
     private List<Schema> requestSchemaList;
@@ -38,8 +39,7 @@ public class RequestHandler implements Runnable {
                 Socket socket = ss.accept();
                 log.info("Consumer: " + socket.getInetAddress().getLocalHost() + " connected");
 
-                BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                String input = br.readLine();
+                String input = CharStreams.toString(new InputStreamReader(socket.getInputStream()));
 
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 bw.write(process(input) + CRLF);
