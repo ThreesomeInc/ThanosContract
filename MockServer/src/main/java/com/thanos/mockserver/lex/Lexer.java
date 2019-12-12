@@ -1,10 +1,12 @@
 package com.thanos.mockserver.lex;
 
 import com.google.common.collect.ImmutableMap;
+import com.thanos.mockserver.validate.DefaultValidator;
 import com.thanos.mockserver.validate.FuncValidator;
 import com.thanos.mockserver.validate.PlainTextValidator;
 import com.thanos.mockserver.validate.RegexValidator;
 import com.thanos.mockserver.validate.Validator;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import sun.misc.FloatingDecimal;
 
@@ -53,6 +55,8 @@ public class Lexer {
                     return new FuncValidator(functionName, PREDEFINED_FUNCTIONS.get(functionName));
                 }
             }
+        } else if ("".equals(StringUtils.trim(value))) {
+            return new DefaultValidator();
         } else {
             return new PlainTextValidator(value);
         }
