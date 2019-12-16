@@ -1,6 +1,7 @@
 package com.thanos.mockserver;
 
 
+import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
 import com.google.common.net.MediaType;
 import com.sun.net.httpserver.Headers;
@@ -14,8 +15,10 @@ import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
@@ -59,9 +62,11 @@ public class Main {
         httpServer.createContext("/ep-by-schema", (ctx) -> {
             Headers headers = ctx.getRequestHeaders();
 
-            Function<String, Map<String, String>> paramMapFunc = (query) -> Stream.of(query.split("&"))
-                    .map(s -> s.split("=", 2))
-                    .collect(Collectors.toMap(a -> a[0], a -> a.length > 1 ? URLDecoder.decode(a[1]) : ""));
+            Function<String, Map<String, String>> paramMapFunc = (query) -> Optional.ofNullable(query).map(q ->
+                    Stream.of(q.split("&"))
+                            .map(s -> s.split("=", 2))
+                            .collect(Collectors.toMap(a -> a[0], a -> a.length > 1 ? URLDecoder.decode(a[1]) : "")))
+                    .orElseGet(HashMap::new);
 
             Map<String, String> queryMap = paramMapFunc.apply(ctx.getRequestURI().getQuery());
             String schema = queryMap.getOrDefault("schema", "");
@@ -71,18 +76,26 @@ public class Main {
                 schema = paramMap.getOrDefault("schema", "");
             }
             if ("".equals(schema)) {
-                ctx.getResponseBody().write("{'data':{},'msg':'the schema is empty', 'code':1}".getBytes());
+                String errContent = "{\"data\":{},\"msg\":\"the schema is empty\", \"code\":1}";
+                ctx.getResponseHeaders().put("Content-Type", Lists.newArrayList(MediaType.JSON_UTF_8.toString()));
+                ctx.sendResponseHeaders(400, errContent.length());
+                ctx.getResponseBody().write(errContent.getBytes());
                 ctx.getResponseBody().flush();
+                ctx.close();
                 return;
             }
-            ctx.getResponseBody().write(fetchEndpointsBySchema(schema));
+            byte[] successContent = fetchEndpointsBySchema(schema);
+            ctx.getResponseHeaders().put("Content-Type", Lists.newArrayList(MediaType.JSON_UTF_8.toString()));
+            ctx.sendResponseHeaders(200, successContent.length);
+            ctx.getResponseBody().write(successContent);
             ctx.getResponseBody().flush();
+            ctx.close();
         });
         httpServer.start();
     }
 
     private static byte[] fetchEndpointsBySchema(String schema) {
         // TODO: to be implemented...
-        return "{'data':'127.0.0.1:38810', 'msg':'success', 'code':0}".getBytes();
+        return "{\"data\":\"127.0.0.1:38810\", \"msg\":\"success\", \"code\":0}".getBytes();
     }
 }
