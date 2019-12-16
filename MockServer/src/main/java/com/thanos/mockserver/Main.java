@@ -6,8 +6,6 @@ import com.google.common.net.MediaType;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpServer;
 import com.thanos.mockserver.handler.RequestHandler;
-import com.thanos.mockserver.parser.Contract;
-import com.thanos.mockserver.parser.Schema;
 import com.thanos.mockserver.registry.RegisteredRecord;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,28 +32,30 @@ public class Main {
 
     public static void main(String[] args) {
         log.info("Mock Server is up!");
-        startup();
-    }
 
-    private static void startup() {
         try {
-            ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-
-            for (RegisteredRecord registeredRecord : fullRecord) {
-                final List<Contract> contracts = registeredRecord.getContracts();
-                final List<Schema> reqSchemas = registeredRecord.getReqSchemas();
-                executor.execute(new RequestHandler(registeredRecord));
-            }
+            startupRegistedMock();
             startupSchemaServer();
-        } catch (IOException ioException) {
-            log.error("Schema or contract not found");
-            ioException.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
             System.exit(0);
         }
     }
 
+    private static void startupRegistedMock() {
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+        for (RegisteredRecord registeredRecord : fullRecord) {
+            executor.execute(new RequestHandler(registeredRecord));
+        }
+
+    }
+
     private static void startupSchemaServer() throws IOException {
         HttpServer httpServer = HttpServer.create(new InetSocketAddress(8081), 3);
+        log.info("HTTP Server startup for schema: GET http://127.0.0.1:8081/ep-by-schema");
+
         httpServer.createContext("/ep-by-schema", (ctx) -> {
             Headers headers = ctx.getRequestHeaders();
 

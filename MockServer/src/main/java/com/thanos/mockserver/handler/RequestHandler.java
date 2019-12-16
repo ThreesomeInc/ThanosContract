@@ -9,7 +9,10 @@ import com.thanos.mockserver.parser.Schema;
 import com.thanos.mockserver.registry.RegisteredRecord;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -73,7 +76,7 @@ public class RequestHandler implements Runnable {
         log.info("Process request ：" + inputRequest);
 
         final Msg request = new MsgParser().parseByTypeAndLength(inputRequest, requestSchemaList);
-        if (request.validateByRegex(requestSchemaList)) {
+        if (request.validate(requestSchemaList)) {
             for (Contract contract : contractList) {
                 if (contract.match(request)) {
                     return contract.buildResponse(responseSchemaList);

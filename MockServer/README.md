@@ -1,26 +1,27 @@
 # Mock Server
 
+根据所存的契约和Schema，生成对应的挡板服务
+
+Schema和契约放置在resources对应folder下
+
 ### Assumpsion
 
 * 最理想是每对Consumer-Provider之间所有契约都用同一个port，对使用者最友好，但这样就需要Mock Server里面逐个去匹配incoming的请求应该是那个schema的？除非msg内部能够提供schema信息?
 * 暂时退而求其次，每对Consumer-Provider之间的同一个schema共用一个socket port，所有基于这个schema的contract都活在里面
 
-### Phase1 [Done]
+## Development 
 
-#### 启动mock server 
+### Done
+
 * 获取所有静态已有契约和schema
 * 为每份契约yml起一个独立线程和端口处理
-
-#### 每个port对应的Thread：
-* 收到request，根据对应的schema去拆解，并根据regex验证field格式
+* 收到request，根据对应的schema去拆解，并根据validator(fix|func|regex)验证field格式
 * 匹配所有同一个schema下，这对consumer-provider下的契约列表，找出第一个匹配的
 * 根据契约生成response并返回(不做校验)
-
-#### Enhance
-* [Done] Response里面不需要指定所有field，只指定某些需要固定值的field，其他会根据schema的正则随机生成。
+* Response里面不需要指定所有field，只指定某些需要固定值的field，其他会根据schema的正则随机生成。
 
 
-### Long Term [TODO]
+### TODO
 
 #### Contract Service
 ##### Schema domain

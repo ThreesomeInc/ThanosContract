@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 @Getter
 @Setter
@@ -18,7 +17,7 @@ public class Msg {
 
     private Map<String, Object> fields;
 
-    public Boolean validateByRegex(List<Schema> schemaList) {
+    public Boolean validate(List<Schema> schemaList) {
         for (Schema schema : schemaList) {
             if (fields.containsKey(schema.getName())) {
                 Object content = fields.get(schema.getName());

@@ -51,14 +51,14 @@ public class MsgParserTest {
     @Test
     public void validateByRegex_health() {
         final Msg msg = msgParser.parseByTypeAndLength("0AA", schema1);
-        final Boolean result = msg.validateByRegex(schema1);
+        final Boolean result = msg.validate(schema1);
         assertTrue(result);
     }
 
     @Test
     public void validateByRegex_invalid() {
         final Msg msg = msgParser.parseByTypeAndLength("0ZZ", schema1);
-        final Boolean result = msg.validateByRegex(schema1);
+        final Boolean result = msg.validate(schema1);
         assertFalse(result);
     }
 }
