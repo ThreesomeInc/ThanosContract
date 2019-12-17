@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class Consumer0 {
 
-	private static final int PORT = 63572;
+	private static final int PORT = 8081;
 	private static final String HOST = "127.0.0.1";
 
 	private static final String REQUEST = "0AA";

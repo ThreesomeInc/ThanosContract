@@ -1,6 +1,8 @@
 package provider;
 
 
+import com.google.common.io.CharStreams;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,8 +30,8 @@ public class Server {
     }
 
     private void process() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        String input = br.readLine();
+        String input = CharStreams.toString(new InputStreamReader(socket.getInputStream()));
+        socket.shutdownInput();
         System.out.println("Received input ：" + input);
 
         String result = new ProviderHandler().handle(input);
@@ -37,6 +39,7 @@ public class Server {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         bw.write(result + "\n");
         bw.flush();
+		socket.shutdownOutput();
     }
 
     public void stop() throws IOException {
