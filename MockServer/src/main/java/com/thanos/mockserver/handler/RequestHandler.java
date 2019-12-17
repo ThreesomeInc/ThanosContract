@@ -43,7 +43,7 @@ public class RequestHandler implements Runnable {
 				log.info("Consumer: " + socket.getInetAddress().getLocalHost() + " connected");
 				new Thread(Unchecked.runnable(() -> {
 					String input = CharStreams.toString(new InputStreamReader(socket.getInputStream()));
-
+					socket.shutdownInput();
 					BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 					bw.write(process(input) + CRLF);
 					bw.flush();

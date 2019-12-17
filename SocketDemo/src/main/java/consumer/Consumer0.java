@@ -1,11 +1,13 @@
 package consumer;
 
+import com.google.common.io.CharStreams;
+
 import java.io.*;
 import java.net.Socket;
 
 public class Consumer0 {
 
-	private static final int PORT = 63082;
+	private static final int PORT = 63572;
 	private static final String HOST = "127.0.0.1";
 
 	private static final String REQUEST = "0AA";
@@ -21,7 +23,7 @@ public class Consumer0 {
 
 			//读取服务器返回的消息
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			String response = br.readLine();
+			String response = CharStreams.toString(br);
 			System.out.println("ProviderMain responsed：" + response);
 
 //            socket.close();
