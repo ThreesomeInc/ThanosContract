@@ -14,6 +14,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UncheckedIOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -50,7 +51,7 @@ public class RequestHandler implements Runnable {
 					socket.shutdownOutput();
 				})).start();
 			}
-		} catch (IOException ioEx) {
+		} catch (IOException | UncheckedIOException ioEx) {
 			log.warn("IOException when create socket");
 			ioEx.printStackTrace();
 		}
