@@ -33,9 +33,9 @@ public class Consumer0ProviderSchema1Test extends IntegrationBase {
     }
 
     @Test
-    public void test_case_1() throws IOException {
+    public void test_consumer0_provider_schema1() throws IOException {
         final String response = sendRequestAndGetResponse("0AA");
-        assertEquals("", response);
+        assertEquals("20020191212", response);
     }
 
 
