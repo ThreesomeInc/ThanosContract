@@ -41,6 +41,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jool-java-8</artifactId>
+            <version>0.9.13</version>
+        </dependency>
+
+        <dependency>
             <groupId>pl.joegreen</groupId>
             <artifactId>lambda-from-string</artifactId>
             <version>1.6</version>

@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 //TODO: This lexer support ONLY one kind of validator, requires AST parsing for composite validator.
 public class Lexer {
 
-    private String PATTERN_IN_STRING = "^\\s?(.*)\\((.*)\\)\\s?$";
+    private String PATTERN_IN_STRING = "^\\s?([A-Za-z0-a_]*)\\((.*)\\)\\s?$";
 
     private Pattern FUNCTION_PATTERN = Pattern.compile(PATTERN_IN_STRING);
 
