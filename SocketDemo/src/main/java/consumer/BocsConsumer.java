@@ -18,6 +18,7 @@ public class BocsConsumer {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             bw.write(REQUEST + CRLF);
             bw.flush();
+            socket.shutdownOutput();
 
             //读取服务器返回的消息
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
