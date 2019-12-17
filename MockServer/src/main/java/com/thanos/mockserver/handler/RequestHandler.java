@@ -22,21 +22,21 @@ import java.util.List;
 @Slf4j
 public class RequestHandler implements Runnable {
 
-	private static final String CRLF = System.lineSeparator();
-	private static final String MISMATCH_RESPONSE = "Incoming request does not match any existing contract";
+    private static final String CRLF = System.lineSeparator();
+    private static final String MISMATCH_RESPONSE = "Incoming request does not match any existing contract";
 
-	private List<Schema> requestSchemaList;
-	private List<Schema> responseSchemaList;
-	private List<Contract> contractList;
-	private RegisteredRecord registeredRecord;
+    private List<Schema> requestSchemaList;
+    private List<Schema> responseSchemaList;
+    private List<Contract> contractList;
+    private RegisteredRecord registeredRecord;
 
-	public RequestHandler(RegisteredRecord registeredRecord) {
-		this.registeredRecord = registeredRecord;
-	}
+    public RequestHandler(RegisteredRecord registeredRecord) {
+        this.registeredRecord = registeredRecord;
+    }
 
-	@Override
-	public void run() {
-		init();
+    @Override
+    public void run() {
+        init();
 
 		try (ServerSocket ss = startServerSocket()) {
 			while (true) {
@@ -57,37 +57,40 @@ public class RequestHandler implements Runnable {
 		}
 	}
 
-	private ServerSocket startServerSocket() throws IOException {
-		ServerSocket ss = new ServerSocket(0);
-		log.info("MockServer for {}-{}/{} start up @ {}",
-				registeredRecord.getConsumer(), registeredRecord.getProvider(),
-				registeredRecord.getSchemaName(), ss.getLocalPort());
-		return ss;
-	}
+    private ServerSocket startServerSocket() throws IOException {
+        ServerSocket ss = new ServerSocket(0);
+        log.info("MockServer for {}-{}/{} start up @ {}",
+                registeredRecord.getConsumer(), registeredRecord.getProvider(),
+                registeredRecord.getSchemaName(), ss.getLocalPort());
+        return ss;
+    }
 
-	void init() {
-		try {
-			contractList = registeredRecord.getContracts();
-			requestSchemaList = registeredRecord.getReqSchemas();
-			responseSchemaList = registeredRecord.getResSchemas();
-		} catch (IOException e) {
-			throw new ParseException("Fail to init RequesHandler", e);
-		}
-	}
+    void init() {
+        try {
+            contractList = registeredRecord.getContracts();
+            requestSchemaList = registeredRecord.getReqSchemas();
+            responseSchemaList = registeredRecord.getResSchemas();
+        } catch (IOException e) {
+            throw new ParseException("Fail to init RequesHandler", e);
+        }
+    }
 
-	String process(String inputRequest) {
-		log.info("Process request ：" + inputRequest);
+    String process(String inputRequest) {
+        log.info("Process request ：" + inputRequest);
 
-		final Msg request = new MsgParser().parseByTypeAndLength(inputRequest, requestSchemaList);
-		log.info(request.toString());
+        final Msg request = new MsgParser().parseByTypeAndLength(inputRequest, requestSchemaList);
+        log.info(request.toString());
 
-		if (request.validate(requestSchemaList)) {
-			for (Contract contract : contractList) {
-				if (contract.match(request)) {
-					return contract.buildResponse(responseSchemaList);
-				}
-			}
-		}
-		return MISMATCH_RESPONSE;
-	}
+        if (request.validate(requestSchemaList)) {
+            for (Contract contract : contractList) {
+                if (contract.match(request)) {
+                    final Msg response = contract.buildResponse(responseSchemaList);
+                    log.info(response.toString());
+
+                    return response.toFixLengthString(responseSchemaList);
+                }
+            }
+        }
+        return MISMATCH_RESPONSE;
+    }
 }

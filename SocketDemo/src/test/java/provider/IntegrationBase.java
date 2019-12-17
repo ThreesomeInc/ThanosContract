@@ -1,7 +1,8 @@
 package provider;
 
-import org.junit.After;
-import org.junit.Before;
+import org.jooq.lambda.Unchecked;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 
 import java.io.IOException;
 
@@ -14,13 +15,12 @@ public class IntegrationBase {
         return port;
     }
 
-    @Before
-    public void setup() throws Exception {
+    @BeforeClass
+    public static void beforeAll() throws Exception {
 
-//        InetAddress locIP = InetAddress.getByName("127.0.0.1");
         server = new Server(0);
 
-        Thread serverThread = new Thread(() -> {
+        Thread serverThread = new Thread(Unchecked.runnable(() -> {
             try {
                 server.init();
                 server.start();
@@ -29,13 +29,13 @@ public class IntegrationBase {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
+        }));
         serverThread.start();
     }
 
-    @After
-    public void tearDown() throws Exception {
-        if (server != null)
+    @AfterClass
+    public static void afterAll() throws Exception {
+        if (server.getSs() != null)
             server.stop();
     }
 }

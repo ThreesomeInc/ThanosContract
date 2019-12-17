@@ -9,7 +9,7 @@ req:
 res:
   MSG_TYPE: 0
   TRAN_ASYNC: 0
-  ROUTE_TYPE: 05
+  ROUTE_TYPE: "05"
   AP_RETCODE: "990000000 "
   ACCT_NO: 12345678901234567
   MEMO: "This is the expected memo in response"

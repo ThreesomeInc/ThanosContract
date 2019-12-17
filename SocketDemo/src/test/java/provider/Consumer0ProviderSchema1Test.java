@@ -9,26 +9,27 @@ import java.net.Socket;
 
 import static org.junit.Assert.assertEquals;
 
-public class Consumer0ProviderSchema1Test {
+public class Consumer0ProviderSchema1Test extends IntegrationBase {
 
     private static final String HOST = "127.0.0.1";
     Socket socket;
-    Server server;
 
     @Before
     public void setUp() throws Exception {
-        Server server = new Server(54321);
-        server.init();
+        {
+            //Keep waiting
+        }
+        while (getPort() == 0) ;
 
-        socket = new Socket(HOST, 54321);
-        server.start();
+        socket = new Socket(HOST, getPort());
+
 
     }
 
     @After
     public void tearDown() throws Exception {
-        if (server != null)
-            server.stop();
+        if (socket != null)
+            socket.close();
     }
 
     @Test
@@ -42,6 +43,7 @@ public class Consumer0ProviderSchema1Test {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         bw.write(request + "\n");
         bw.flush();
+        socket.shutdownOutput();
         //读取服务器返回的消息
         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         return br.readLine();

@@ -8,8 +8,9 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -19,27 +20,36 @@ import java.util.Map;
 @Slf4j
 public class Msg {
 
-	private Map<String, Object> fields;
+    private LinkedHashMap<String, Object> fields;
 
-	public Boolean validate(List<Schema> schemaList) {
-		for (Schema schema : schemaList) {
-			if (fields.containsKey(schema.getName())) {
-				Object content = fields.get(schema.getName());
-				if (!schema.getValidator().validate(content.toString())) {
-					log.warn("Field {} mismatch with schema {}", content.toString(), schema);
-					return false;
-				}
-			} else {
-				throw new ParseException("Field missing in request: " + schema.toString());
-			}
-		}
-		return true;
-	}
+    public Boolean validate(List<Schema> schemaList) {
+        for (Schema schema : schemaList) {
+            if (fields.containsKey(schema.getName())) {
+                Object content = fields.get(schema.getName());
+                if (!schema.getValidator().validate(content.toString())) {
+                    log.warn("Field {} mismatch with schema {}", content.toString(), schema);
+                    return false;
+                }
+            } else {
+                throw new ParseException("Field missing in request: " + schema.toString());
+            }
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "Msg{" +
-				"fields=" + fields +
-				'}';
-	}
+    public String toFixLengthString(List<Schema> responseSchema) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Collections.sort(responseSchema);
+        for (Schema resSchema : responseSchema) {
+            stringBuilder.append(fields.get(resSchema.getName()));
+        }
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "Msg{" +
+                "fields=" + fields +
+                '}';
+    }
 }

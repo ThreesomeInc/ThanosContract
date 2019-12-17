@@ -3,11 +3,7 @@ package com.thanos.mockserver.parser;
 import com.mifmif.common.regex.Generex;
 import com.thanos.mockserver.validate.PlainTextValidator;
 import com.thanos.mockserver.validate.RegexValidator;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -53,23 +49,24 @@ public class Contract {
     }
 
     // Directly combine from contract without validation
-    public String buildResponse(List<Schema> responseSchema) {
-        StringBuilder stringBuilder = new StringBuilder();
+    public Msg buildResponse(List<Schema> responseSchema) {
+
+        LinkedHashMap<String, Object> responseMsg = new LinkedHashMap<>();
 
         Collections.sort(responseSchema);
 
-        for (Schema response : responseSchema) {
-            if (res.containsKey(response.getName())) {
-                stringBuilder.append(res.get(response.getName()));
-            } else if (response.getValidator() instanceof RegexValidator) {
-                Generex generex = new Generex(((RegexValidator) response.getValidator()).getRegexp());
-                stringBuilder.append(generex.random());
-            } else if (response.getValidator() instanceof PlainTextValidator) {
-                stringBuilder.append(((PlainTextValidator) response.getValidator()).getExpectedValue());
+        for (Schema resSchema : responseSchema) {
+            if (res.containsKey(resSchema.getName())) {
+                responseMsg.put(resSchema.getName(), res.get(resSchema.getName()));
+            } else if (resSchema.getValidator() instanceof RegexValidator) {
+                Generex generex = new Generex(((RegexValidator) resSchema.getValidator()).getRegexp());
+                responseMsg.put(resSchema.getName(), generex.random());
+            } else if (resSchema.getValidator() instanceof PlainTextValidator) {
+                responseMsg.put(resSchema.getName(),
+                        ((PlainTextValidator) resSchema.getValidator()).getExpectedValue());
             }
         }
 
-        log.info("Response : " + stringBuilder.toString());
-        return stringBuilder.toString();
+        return new Msg(responseMsg);
     }
 }

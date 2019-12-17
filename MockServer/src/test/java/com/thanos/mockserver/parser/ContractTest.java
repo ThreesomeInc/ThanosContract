@@ -33,8 +33,11 @@ public class ContractTest {
         final List<Schema> resSchema = schemaParser.parseRes("schema1");
 
         assertEquals(2, parse.size());
-        assertTrue(parse.get(0).buildResponse(resSchema).startsWith("40420191212"));
-        assertTrue(parse.get(1).buildResponse(resSchema).startsWith("50020191213"));
+
+        assertTrue(parse.get(0).buildResponse(resSchema)
+                .toFixLengthString(resSchema).startsWith("40420191212"));
+        assertTrue(parse.get(1).buildResponse(resSchema).
+                toFixLengthString(resSchema).startsWith("50020191213"));
     }
 
     @Test

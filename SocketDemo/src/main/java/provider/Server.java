@@ -50,4 +50,12 @@ public class Server {
     public int getPort() {
         return port;
     }
+
+    public ServerSocket getSs() {
+        return ss;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
 }

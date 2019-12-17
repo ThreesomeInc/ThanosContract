@@ -43,11 +43,9 @@ public class Main {
 
     private static void startupRegistedMock() {
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-
         for (RegisteredRecord registeredRecord : fullRecord) {
             executor.execute(new RequestHandler(registeredRecord));
         }
-
     }
 
     private static void startupSchemaServer() throws IOException {
