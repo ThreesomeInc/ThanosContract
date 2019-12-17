@@ -36,8 +36,7 @@ public class RequestHandler implements Runnable {
     public void run() {
         init();
 
-        try {
-            ServerSocket ss = startServerSocket();
+        try (ServerSocket ss = startServerSocket()) {
             while (true) {
                 Socket socket = ss.accept();
                 log.info("Consumer: " + socket.getInetAddress().getLocalHost() + " connected");
@@ -76,6 +75,8 @@ public class RequestHandler implements Runnable {
         log.info("Process request ：" + inputRequest);
 
         final Msg request = new MsgParser().parseByTypeAndLength(inputRequest, requestSchemaList);
+        log.info(request.toString());
+
         if (request.validate(requestSchemaList)) {
             for (Contract contract : contractList) {
                 if (contract.match(request)) {

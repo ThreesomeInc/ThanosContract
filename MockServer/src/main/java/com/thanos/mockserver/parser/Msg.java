@@ -4,8 +4,8 @@ import com.thanos.mockserver.exception.ParseException;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -15,7 +15,7 @@ import java.util.Map;
 @Slf4j
 public class Msg {
 
-    private Map<String, Object> fields;
+    private LinkedHashMap<String, Object> fields;
 
     public Boolean validate(List<Schema> schemaList) {
         for (Schema schema : schemaList) {
@@ -30,5 +30,12 @@ public class Msg {
             }
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Msg{" +
+                "fields=" + fields +
+                '}';
     }
 }

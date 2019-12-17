@@ -4,9 +4,8 @@ import com.thanos.mockserver.exception.ParseException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Getter
@@ -14,25 +13,14 @@ public class MsgParser {
 
 
     public Msg parseByTypeAndLength(String inputRequest, List<Schema> requestSchemaList) {
-        Map<String, Object> fields = new HashMap<>();
+        LinkedHashMap<String, Object> fields = new LinkedHashMap<>();
 
         int startIndex = 0;
         try {
             for (Schema requestSchema : requestSchemaList) {
-
-                if (requestSchema.getType().equals("CHAR")) {
-                    fields.put(requestSchema.getName(),
-                            inputRequest.substring(startIndex, startIndex + requestSchema.getLength()));
-                    startIndex += requestSchema.getLength();
-
-                } else if (requestSchema.getType().equals("NUM")) {
-                    fields.put(requestSchema.getName(),
-                            Integer.valueOf(inputRequest.substring(startIndex, startIndex + requestSchema.getLength())));
-                    startIndex += requestSchema.getLength();
-
-                } else {
-                    throw new ParseException("Invalid Msg Schema");
-                }
+                fields.put(requestSchema.getName(),
+                        inputRequest.substring(startIndex, startIndex + requestSchema.getLength()));
+                startIndex += requestSchema.getLength();
             }
         } catch (StringIndexOutOfBoundsException stringIndexEx) {
             throw new ParseException("Input Msg is shorter then schema expected!", stringIndexEx.getCause());

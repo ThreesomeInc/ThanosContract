@@ -14,11 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
@@ -30,17 +26,16 @@ public class Main {
 
     static final List<RegisteredRecord> fullRecord = Arrays.asList(
             new RegisteredRecord("consumer0", "provider", "schema1"),
-            new RegisteredRecord("consumer1", "provider", "schema1"));
+            new RegisteredRecord("consumer1", "provider", "schema1"),
+            new RegisteredRecord("bocs", "lims", "10400"));
 
 
     public static void main(String[] args) {
-        log.info("Mock Server is up!");
-
         try {
             startupRegistedMock();
             startupSchemaServer();
-
-        } catch (IOException e) {
+            log.info("Mock Server is up!");
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
         }

@@ -1,17 +1,21 @@
 package provider;
 
 import org.junit.After;
-import org.junit.BeforeClass;
+import org.junit.Before;
 
 import java.io.IOException;
 
 public class IntegrationBase {
 
-    public static int port;
-    public static Server server;
+    static int port;
+    static Server server;
 
-    @BeforeClass
-    public static void setup() throws Exception {
+    public static int getPort() {
+        return port;
+    }
+
+    @Before
+    public void setup() throws Exception {
 
 //        InetAddress locIP = InetAddress.getByName("127.0.0.1");
         server = new Server(0);
@@ -31,6 +35,7 @@ public class IntegrationBase {
 
     @After
     public void tearDown() throws Exception {
-        server.stop();
+        if (server != null)
+            server.stop();
     }
 }

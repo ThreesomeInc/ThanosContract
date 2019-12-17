@@ -1,5 +1,6 @@
 package provider;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,14 +9,26 @@ import java.net.Socket;
 
 import static org.junit.Assert.assertEquals;
 
-public class Consumer0ProviderSchema1Test extends IntegrationBase {
+public class Consumer0ProviderSchema1Test {
 
     private static final String HOST = "127.0.0.1";
     Socket socket;
+    Server server;
 
     @Before
     public void setUp() throws Exception {
-        socket = new Socket(HOST, port);
+        Server server = new Server(54321);
+        server.init();
+
+        socket = new Socket(HOST, 54321);
+        server.start();
+
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        if (server != null)
+            server.stop();
     }
 
     @Test

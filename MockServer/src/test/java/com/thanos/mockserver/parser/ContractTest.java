@@ -1,12 +1,10 @@
 package com.thanos.mockserver.parser;
 
-import com.mifmif.common.regex.Generex;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +14,7 @@ public class ContractTest {
     public void match() {
         final ContractParser contractParser = new ContractParser();
         final List<Contract> contractList = contractParser.parse("contracts/consumer1_provider/", "schema1_test.yml");
-        Map<String, Object> fields = new HashMap<>();
+        LinkedHashMap<String, Object> fields = new LinkedHashMap<>();
         fields.put("Flag", 1);
         fields.put("TranCode", "AA");
         final Msg request = new Msg(fields);
@@ -41,8 +39,10 @@ public class ContractTest {
 
     @Test
     public void test_regex_generation() {
-        Generex generex = new Generex("\\d{3}");
-        final String random = generex.random();
-        System.out.println(random);
+//        Generex generex = new Generex("(0|1){2}");
+//        final String random = generex.random();
+//        System.out.println("'"+random+"'");
+        assertTrue("          ".matches("\\s{10}"));
+
     }
 }
