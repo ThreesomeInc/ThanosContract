@@ -2,15 +2,12 @@ version: 20200101
 matching:
 - '#/definitions/BocsHeader/TCODE'
 header:
-- schema:
-    $ref: '#/definitions/IpsHeader'
-- schema:
-    $ref: '#/definitions/BocsHeader'
+- $ref: '#/definitions/IpsHeader'
+- $ref: '#/definitions/BocsHeader'
 request:
-- schema:
-    $ref: '#/definitions/10400'
+- $ref: '#/definitions/10400'
 response:
-- schema:
+-
   $ref: '#/definitions/32105'
 
 definitions:
@@ -18,28 +15,28 @@ definitions:
     MSG_TYPE:
       type: CHAR
       length: 1
-      validation: "regex(0|1)"
+      validation: 'regex(0|1)'
     TRAN_ASYNC:
       type: CHAR
       length: 1
-      validation: "regex(0|1)"
+      validation: 'regex(0|1)'
   BocsHeader:
     MESSAGE_TYPE:
       type: NUM
       length: 2
-      validation: "regex(00|01|10|11)"
+      validation: 'regex(00|01|10|11)'
     TCODE:
       type: NUM
       length: 6
-      validation: "regex(\d{6})"
+      validation: 'regex(\d{6})'
   10400:
     ACCT_NO:
       type: NUM
       length: 17
-      validation: "regex(\d{17})"
+      validation: 'regex(\d{17})'
   32105:
     SUPPLEMENT:
       type: CHAR
       length: 10
-      validation: "regex(\s{10})"
+      validation: 'regex(\s{10})'
 

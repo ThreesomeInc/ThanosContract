@@ -1,11 +1,7 @@
-package com.thanos.mockserver.parser;
+package com.thanos.mockserver.infrastructure.parser;
 
 import com.thanos.mockserver.exception.ParseException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;

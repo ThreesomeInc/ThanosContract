@@ -1,4 +1,4 @@
-package com.thanos.mockserver.parser;
+package com.thanos.mockserver.infrastructure.parser;
 
 import com.thanos.mockserver.validate.RegexValidator;
 import org.junit.Test;

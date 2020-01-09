@@ -1,0 +1,43 @@
+name: 10400
+version: 20200101
+header:
+- name: IPS_Header
+  version: 20100101
+  fields:
+  - name: MSG_TYPE
+    type: CHAR
+    length: 1
+    validation: 'regex(0|1)'
+  - name: TRAN_ASYNC
+    type: CHAR
+    length: 1
+    validation: 'regex(0|1)'
+- name: BOS_Header
+  version: 20100109
+  fields:
+  - name: MESSAGE_TYPE
+    type: NUM
+    length: 2
+    validation: '00'
+    matchingKey: True
+  - name: TCODE
+    type: NUM
+    length: 6
+    validation: 'regex(\d{6})'
+request:
+- name: 10400
+  version: 20100112
+  fields:
+  - name: ACCT_NO
+    type: NUM
+    length: 17
+    validation: 'regex(\d{17})'
+response:
+- name: 32105
+  version: 20100101
+  fields:
+  - name: SUPPLEMENT
+    type: CHAR
+    length: 10
+    validation: 'regex(\s{10})'
+

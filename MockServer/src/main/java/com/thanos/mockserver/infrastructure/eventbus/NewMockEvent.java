@@ -1,4 +1,4 @@
-package com.thanos.mockserver.eventbus;
+package com.thanos.mockserver.infrastructure.eventbus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.thanos.mockserver.eventbus;
+package com.thanos.mockserver.infrastructure.eventbus;
 
 import com.google.common.eventbus.DeadEvent;
 import com.google.common.eventbus.Subscribe;

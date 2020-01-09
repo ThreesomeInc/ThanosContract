@@ -1,4 +1,4 @@
-package com.thanos.mockserver.parser;
+package com.thanos.mockserver.infrastructure.parser;
 
 import lombok.extern.slf4j.Slf4j;
 import org.yaml.snakeyaml.Yaml;

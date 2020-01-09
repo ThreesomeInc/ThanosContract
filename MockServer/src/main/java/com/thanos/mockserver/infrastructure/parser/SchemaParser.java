@@ -1,4 +1,4 @@
-package com.thanos.mockserver.parser;
+package com.thanos.mockserver.infrastructure.parser;
 
 import com.thanos.mockserver.lex.Lexer;
 import org.apache.commons.csv.CSVFormat;

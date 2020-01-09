@@ -2,8 +2,8 @@ package com.thanos.mockserver.handler;
 
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.Subscribe;
-import com.thanos.mockserver.eventbus.EventBusFactory;
-import com.thanos.mockserver.eventbus.NewMockEvent;
+import com.thanos.mockserver.infrastructure.eventbus.EventBusFactory;
+import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.GET;

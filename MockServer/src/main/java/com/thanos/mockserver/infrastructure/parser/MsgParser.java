@@ -1,4 +1,4 @@
-package com.thanos.mockserver.parser;
+package com.thanos.mockserver.infrastructure.parser;
 
 import com.google.common.collect.Maps;
 import com.thanos.mockserver.exception.ParseException;

@@ -1,4 +1,4 @@
-package com.thanos.mockserver.parser;
+package com.thanos.mockserver.infrastructure.parser;
 
 import com.mifmif.common.regex.Generex;
 import com.thanos.mockserver.validate.PlainTextValidator;

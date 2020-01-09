@@ -1,9 +1,9 @@
 package com.thanos.mockserver.registry;
 
-import com.thanos.mockserver.parser.Contract;
-import com.thanos.mockserver.parser.ContractParser;
-import com.thanos.mockserver.parser.Schema;
-import com.thanos.mockserver.parser.SchemaParser;
+import com.thanos.mockserver.infrastructure.parser.Contract;
+import com.thanos.mockserver.infrastructure.parser.ContractParser;
+import com.thanos.mockserver.infrastructure.parser.Schema;
+import com.thanos.mockserver.infrastructure.parser.SchemaParser;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
