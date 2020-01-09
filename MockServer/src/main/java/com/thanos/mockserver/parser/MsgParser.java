@@ -5,8 +5,8 @@ import com.thanos.mockserver.exception.ParseException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Getter
@@ -14,7 +14,7 @@ public class MsgParser {
 
 
 	public Msg parseByTypeAndLength(String inputRequest, List<Schema> requestSchemaList) {
-		Map<String, Object> fields = Maps.newLinkedHashMap();
+		LinkedHashMap<String, Object> fields = Maps.newLinkedHashMap();
 
 		int startIndex = 0;
 		try {

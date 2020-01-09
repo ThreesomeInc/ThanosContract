@@ -1,6 +1,9 @@
 package com.thanos.mockserver.handler;
 
+import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.io.CharStreams;
+import com.thanos.mockserver.eventbus.EventBusFactory;
+import com.thanos.mockserver.eventbus.NewMockEvent;
 import com.thanos.mockserver.exception.ParseException;
 import com.thanos.mockserver.parser.Contract;
 import com.thanos.mockserver.parser.Msg;
@@ -10,11 +13,7 @@ import com.thanos.mockserver.registry.RegisteredRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.lambda.Unchecked;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -29,9 +28,11 @@ public class RequestHandler implements Runnable {
     private List<Schema> responseSchemaList;
     private List<Contract> contractList;
     private RegisteredRecord registeredRecord;
+    private AsyncEventBus asyncEventBus;
 
     public RequestHandler(RegisteredRecord registeredRecord) {
         this.registeredRecord = registeredRecord;
+        asyncEventBus = EventBusFactory.getInstance();
     }
 
     @Override
@@ -59,9 +60,15 @@ public class RequestHandler implements Runnable {
 
     private ServerSocket startServerSocket() throws IOException {
         ServerSocket ss = new ServerSocket(0);
-        log.info("MockServer for {}-{}/{} start up @ {}",
+        log.info("MockServer for {}-{} start up @ {}",
                 registeredRecord.getConsumer(), registeredRecord.getProvider(),
-                registeredRecord.getSchemaName(), ss.getLocalPort());
+//                registeredRecord.getSchemaName(),
+                ss.getLocalPort());
+
+        asyncEventBus.post(new NewMockEvent(ss.getLocalPort(),
+                registeredRecord.getConsumer(), registeredRecord.getProvider())
+        );
+
         return ss;
     }
 

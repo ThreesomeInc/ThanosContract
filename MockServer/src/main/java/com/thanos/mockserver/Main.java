@@ -1,44 +1,58 @@
 package com.thanos.mockserver;
 
 
-import com.google.common.collect.Lists;
-import com.google.common.io.CharStreams;
-import com.google.common.net.MediaType;
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpServer;
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+import com.thanos.mockserver.handler.MockMappingHandler;
 import com.thanos.mockserver.handler.RequestHandler;
 import com.thanos.mockserver.registry.RegisteredRecord;
+import io.muserver.Method;
+import io.muserver.MuServer;
+import io.muserver.rest.RestHandlerBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
-import java.net.URLDecoder;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static io.muserver.MuServerBuilder.httpServer;
 
 @Slf4j
 public class Main {
 
     static final List<RegisteredRecord> fullRecord = Arrays.asList(
             new RegisteredRecord("consumer0", "provider", "schema1"),
-            new RegisteredRecord("consumer1", "provider", "schema1"),
-            new RegisteredRecord("bocs", "lims", "10400"));
+            new RegisteredRecord("consumer1", "provider", "schema1"));
+//            new RegisteredRecord("bocs", "lims", "10400"));
 
 
     public static void main(String[] args) {
         try {
+            startupWebServer();
             startupRegistedMock();
-            startupSchemaServer();
             log.info("Mock Server is up!");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
         }
+    }
+
+    private static void startupWebServer() throws IOException {
+        MuServer server = httpServer()
+                .withHttpPort(8081)
+                .addHandler(RestHandlerBuilder.restHandler(new MockMappingHandler())
+                        .withOpenApiJsonUrl("/openapi.json")
+                        .withOpenApiHtmlUrl("/api.html")
+                        .addCustomWriter(new JacksonJaxbJsonProvider())
+                        .addCustomReader(new JacksonJaxbJsonProvider())
+                        .withOpenApiHtmlUrl("/api.html"))
+                .addHandler(Method.GET, "/", ((muRequest, muResponse, map) -> {
+//                    muResponse.write("HelloWorld");
+                    muResponse.redirect("/api.html");
+                }))
+                .start();
+        System.out.println("Web Server started at " + server.uri());
     }
 
     private static void startupRegistedMock() {
@@ -48,47 +62,4 @@ public class Main {
         }
     }
 
-    private static void startupSchemaServer() throws IOException {
-        HttpServer httpServer = HttpServer.create(new InetSocketAddress(8081), 3);
-        log.info("HTTP Server startup for schema: GET http://127.0.0.1:8081/ep-by-schema");
-
-        httpServer.createContext("/ep-by-schema", (ctx) -> {
-            Headers headers = ctx.getRequestHeaders();
-
-            Function<String, Map<String, String>> paramMapFunc = (query) -> Optional.ofNullable(query).map(q ->
-                    Stream.of(q.split("&"))
-                            .map(s -> s.split("=", 2))
-                            .collect(Collectors.toMap(a -> a[0], a -> a.length > 1 ? URLDecoder.decode(a[1]) : "")))
-                    .orElseGet(HashMap::new);
-
-            Map<String, String> queryMap = paramMapFunc.apply(ctx.getRequestURI().getQuery());
-            String schema = queryMap.getOrDefault("schema", "");
-
-            if (!queryMap.containsKey("schema") && MediaType.FORM_DATA.toString().equals(headers.getFirst("Content-Type"))) {
-                Map<String, String> paramMap = paramMapFunc.apply(CharStreams.toString(new InputStreamReader(ctx.getRequestBody())));
-                schema = paramMap.getOrDefault("schema", "");
-            }
-            if ("".equals(schema)) {
-                String errContent = "{\"data\":{},\"msg\":\"the schema is empty\", \"code\":1}";
-                ctx.getResponseHeaders().put("Content-Type", Lists.newArrayList(MediaType.JSON_UTF_8.toString()));
-                ctx.sendResponseHeaders(400, errContent.length());
-                ctx.getResponseBody().write(errContent.getBytes());
-                ctx.getResponseBody().flush();
-                ctx.close();
-                return;
-            }
-            byte[] successContent = fetchEndpointsBySchema(schema);
-            ctx.getResponseHeaders().put("Content-Type", Lists.newArrayList(MediaType.JSON_UTF_8.toString()));
-            ctx.sendResponseHeaders(200, successContent.length);
-            ctx.getResponseBody().write(successContent);
-            ctx.getResponseBody().flush();
-            ctx.close();
-        });
-        httpServer.start();
-    }
-
-    private static byte[] fetchEndpointsBySchema(String schema) {
-        // TODO: to be implemented...
-        return "{\"data\":\"127.0.0.1:38810\", \"msg\":\"success\", \"code\":0}".getBytes();
-    }
 }
