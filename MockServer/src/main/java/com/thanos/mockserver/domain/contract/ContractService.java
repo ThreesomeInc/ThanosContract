@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ContractService {
 
-    public List<NewContract> loadAllContracts() {
+    public List<Contract> loadAllContracts() {
         final List<String> contractPaths = getAllContractPaths();
         final NewContractParser contractParser = new NewContractParser();
 

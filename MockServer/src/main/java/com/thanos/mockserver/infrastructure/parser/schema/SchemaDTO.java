@@ -1,7 +1,7 @@
 package com.thanos.mockserver.infrastructure.parser.schema;
 
 import com.thanos.mockserver.domain.schema.Field;
-import com.thanos.mockserver.domain.schema.NewSchema;
+import com.thanos.mockserver.domain.schema.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,8 +24,8 @@ public class SchemaDTO {
     List<FragmentDTO> request;
     List<FragmentDTO> response;
 
-    public static List<NewSchema> buildFrom(Iterable<Object> ymlResult) {
-        final List<NewSchema> result = new LinkedList<>();
+    public static List<Schema> buildFrom(Iterable<Object> ymlResult) {
+        final List<Schema> result = new LinkedList<>();
         for (Object record : ymlResult) {
             if (record instanceof SchemaDTO) {
                 result.add(((SchemaDTO) record).toSchema());
@@ -34,7 +34,7 @@ public class SchemaDTO {
         return result;
     }
 
-    public NewSchema toSchema() {
+    public Schema toSchema() {
 
         final LinkedList<Field> headerFields = header.stream()
                 .flatMap(fragmentDTO -> fragmentDTO.getFields().stream().map(FieldDTO::toField))
@@ -52,7 +52,7 @@ public class SchemaDTO {
         LinkedList<Field> mergedResponseFields = new LinkedList<>(headerFields);
         mergedResponseFields.addAll(responseFields);
 
-        return new NewSchema(this.provider.trim().toUpperCase(),
+        return new Schema(this.provider.trim().toUpperCase(),
                 this.version.trim().toUpperCase(), this.name.trim().toUpperCase(),
                 mergedRequestFields, mergedResponseFields);
     }

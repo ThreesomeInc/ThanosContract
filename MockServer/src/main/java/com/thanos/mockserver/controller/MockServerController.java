@@ -1,9 +1,9 @@
 package com.thanos.mockserver.controller;
 
 import com.thanos.mockserver.domain.MockServerHandler;
+import com.thanos.mockserver.domain.contract.Contract;
 import com.thanos.mockserver.domain.contract.ContractService;
-import com.thanos.mockserver.domain.contract.NewContract;
-import com.thanos.mockserver.domain.schema.NewSchema;
+import com.thanos.mockserver.domain.schema.Schema;
 import com.thanos.mockserver.domain.schema.SchemaService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,8 +19,8 @@ public class MockServerController {
     private ContractService contractService;
     private SchemaService schemaService;
 
-    private List<NewContract> contracts;
-    private List<NewSchema> newSchemas;
+    private List<Contract> contracts;
+    private List<Schema> schemas;
 
     public MockServerController() {
         contractService = new ContractService();
@@ -32,17 +32,17 @@ public class MockServerController {
      */
     public void startupMockServer() {
         contracts = contractService.loadAllContracts();
-        newSchemas = schemaService.loadAllSchemas();
+        schemas = schemaService.loadAllSchemas();
 
-        final Map<String, List<NewContract>> collect =
-                contracts.stream().collect(Collectors.groupingBy(NewContract::getIndex));
+        final Map<String, List<Contract>> collect =
+                contracts.stream().collect(Collectors.groupingBy(Contract::getIndex));
         collect.keySet().forEach(index ->
         {
-            final List<NewContract> contracts = collect.get(index);
+            final List<Contract> contracts = collect.get(index);
 
             if (contracts.size() > 0) {
                 String provider = contracts.get(0).getProvider();
-                final List<NewSchema> schemas = newSchemas.stream()
+                final List<Schema> schemas = this.schemas.stream()
                         .filter(newSchema -> newSchema.getProvider().equals(provider))
                         .collect(Collectors.toList());
 
@@ -55,11 +55,11 @@ public class MockServerController {
         });
     }
 
-    public List<NewContract> getContracts() {
+    public List<Contract> getContracts() {
         return contracts;
     }
 
-    public List<NewSchema> getNewSchemas() {
-        return newSchemas;
+    public List<Schema> getSchemas() {
+        return schemas;
     }
 }

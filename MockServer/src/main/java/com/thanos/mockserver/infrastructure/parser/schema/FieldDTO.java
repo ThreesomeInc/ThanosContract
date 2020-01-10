@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.Optional;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,13 +16,8 @@ public class FieldDTO {
     String type;
     Integer length;
     String validation;
-    Boolean matchingKey;
 
     public Field toField() {
-        Lexer lexer = new Lexer();
-
-        return new Field(name, type, length,
-                Optional.ofNullable(matchingKey).orElse(Boolean.FALSE),
-                lexer.Lex(validation));
+        return new Field(name, type, length, new Lexer().Lex(validation));
     }
 }

@@ -15,7 +15,7 @@ import java.util.LinkedList;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewSchema {
+public class Schema {
 
     private String provider;
     private String version;

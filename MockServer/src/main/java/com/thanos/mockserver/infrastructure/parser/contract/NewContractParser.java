@@ -1,6 +1,6 @@
 package com.thanos.mockserver.infrastructure.parser.contract;
 
-import com.thanos.mockserver.domain.contract.NewContract;
+import com.thanos.mockserver.domain.contract.Contract;
 import com.thanos.mockserver.exception.ParseException;
 import lombok.extern.slf4j.Slf4j;
 import org.yaml.snakeyaml.Yaml;
@@ -17,11 +17,11 @@ public class NewContractParser {
 
     Yaml yaml = new Yaml(new Constructor(ContractDTO.class));
 
-    public List<NewContract> parse(String path, String fileName) {
+    public List<Contract> parse(String path, String fileName) {
         return parse(path + fileName);
     }
 
-    public List<NewContract> parse(String fullPath) {
+    public List<Contract> parse(String fullPath) {
         try {
             InputStream inputStream = Files.newInputStream(Paths.get(fullPath));
             final Iterable<Object> contractList = yaml.loadAll(inputStream);

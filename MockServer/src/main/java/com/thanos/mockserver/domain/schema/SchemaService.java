@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SchemaService {
 
-    public List<NewSchema> loadAllSchemas() {
+    public List<Schema> loadAllSchemas() {
         final List<String> schemaPaths = getAllSchemaPaths();
         final SchemaYamlParser schemaYamlParser = new SchemaYamlParser();
         return schemaPaths.stream()

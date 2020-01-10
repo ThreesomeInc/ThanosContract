@@ -3,7 +3,7 @@ package com.thanos.mockserver.domain.contract;
 import com.mifmif.common.regex.Generex;
 import com.thanos.mockserver.domain.Message;
 import com.thanos.mockserver.domain.schema.Field;
-import com.thanos.mockserver.domain.schema.NewSchema;
+import com.thanos.mockserver.domain.schema.Schema;
 import com.thanos.mockserver.domain.validate.PlainTextValidator;
 import com.thanos.mockserver.domain.validate.RegexValidator;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewContract {
+public class Contract {
 
     String name;
     String schemaName;
@@ -45,7 +45,7 @@ public class NewContract {
         return true;
     }
 
-    public String buildResponse(NewSchema matchedSchema) {
+    public String buildResponse(Schema matchedSchema) {
         StringBuilder result = new StringBuilder();
 
         for (Field field : matchedSchema.getResponse()) {

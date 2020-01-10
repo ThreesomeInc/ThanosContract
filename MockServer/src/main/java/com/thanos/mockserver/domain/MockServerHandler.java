@@ -1,8 +1,8 @@
 package com.thanos.mockserver.domain;
 
 import com.google.common.io.CharStreams;
-import com.thanos.mockserver.domain.contract.NewContract;
-import com.thanos.mockserver.domain.schema.NewSchema;
+import com.thanos.mockserver.domain.contract.Contract;
+import com.thanos.mockserver.domain.schema.Schema;
 import com.thanos.mockserver.infrastructure.eventbus.EventBusFactory;
 import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +25,10 @@ public class MockServerHandler implements Runnable {
     private static final String MISMATCH_RESPONSE = "Incoming request does not match any existing contract";
 
     private String index;
-    private List<NewContract> contractList;
-    private List<NewSchema> schemaList;
+    private List<Contract> contractList;
+    private List<Schema> schemaList;
 
-    public MockServerHandler(String index, List<NewContract> contractList, List<NewSchema> schemaList) {
+    public MockServerHandler(String index, List<Contract> contractList, List<Schema> schemaList) {
         this.index = index;
         this.contractList = contractList;
         this.schemaList = schemaList;
@@ -75,10 +75,10 @@ public class MockServerHandler implements Runnable {
             Message msg = message.get();
             log.info(msg.toString());
 
-            final List<NewContract> contractToMatch = contractList.stream()
+            final List<Contract> contractToMatch = contractList.stream()
                     .filter(newContract -> newContract.getSchemaName().equals(msg.getMatchedSchema().getName()))
                     .collect(Collectors.toList());
-            for (NewContract contract : contractToMatch) {
+            for (Contract contract : contractToMatch) {
                 if (contract.matchRequest(msg)) {
                     final String result = contract.buildResponse(msg.getMatchedSchema());
                     log.info("Contract {}/{} matched and response is [{}]",
@@ -91,7 +91,7 @@ public class MockServerHandler implements Runnable {
     }
 
     Optional<Message> parseAndValidateMsg(String inputRequest) {
-        for (NewSchema schema : schemaList) {
+        for (Schema schema : schemaList) {
             try {
                 return Optional.of(schema.parseRequest(inputRequest));
             } catch (Exception ex) {

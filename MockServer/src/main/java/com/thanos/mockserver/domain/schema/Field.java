@@ -12,14 +12,12 @@ public class Field {
     String name;
     String type;
     Integer length;
-    Boolean matchingKey;
     Validator validator;
 
-    public Field(String name, String type, Integer length, Boolean matchingKey, Validator validator) {
+    public Field(String name, String type, Integer length, Validator validator) {
         this.name = name;
         this.type = type;
         this.length = length;
-        this.matchingKey = matchingKey;
         this.validator = validator;
     }
 

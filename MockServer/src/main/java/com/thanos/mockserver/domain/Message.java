@@ -1,6 +1,6 @@
 package com.thanos.mockserver.domain;
 
-import com.thanos.mockserver.domain.schema.NewSchema;
+import com.thanos.mockserver.domain.schema.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -12,10 +12,10 @@ import java.util.LinkedHashMap;
 @NoArgsConstructor
 public class Message {
 
-    private NewSchema matchedSchema;
+    private Schema matchedSchema;
     private LinkedHashMap<String, Object> parseRequest;
 
-    public Message(NewSchema matchedSchema, LinkedHashMap<String, Object> parseRequest) {
+    public Message(Schema matchedSchema, LinkedHashMap<String, Object> parseRequest) {
         this.matchedSchema = matchedSchema;
         this.parseRequest = parseRequest;
     }

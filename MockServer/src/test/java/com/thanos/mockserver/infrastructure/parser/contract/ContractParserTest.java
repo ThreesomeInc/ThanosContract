@@ -1,6 +1,6 @@
 package com.thanos.mockserver.infrastructure.parser.contract;
 
-import com.thanos.mockserver.domain.contract.NewContract;
+import com.thanos.mockserver.domain.contract.Contract;
 import com.thanos.mockserver.domain.schema.SchemaService;
 import org.junit.Test;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class NewContractParserTest {
+public class ContractParserTest {
 
     @Test
     public void parse() {
@@ -18,7 +18,7 @@ public class NewContractParserTest {
 
         final NewContractParser newContractParser = new NewContractParser();
 
-        final List<NewContract> result =
+        final List<Contract> result =
                 newContractParser.parse(resource.getPath(), "10400_test.yml");
 
         System.out.println(result);
@@ -34,7 +34,7 @@ public class NewContractParserTest {
 
         final NewContractParser newContractParser = new NewContractParser();
 
-        final List<NewContract> result =
+        final List<Contract> result =
                 newContractParser.parse(resource.getPath());
 
         System.out.println(result);

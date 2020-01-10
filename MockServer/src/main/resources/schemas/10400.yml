@@ -20,7 +20,6 @@ header:
     type: NUM
     length: 5
     validation: '10400'
-    matchingKey: True
   - name: TCODE
     type: NUM
     length: 6

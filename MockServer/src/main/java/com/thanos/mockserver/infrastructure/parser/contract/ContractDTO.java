@@ -1,6 +1,6 @@
 package com.thanos.mockserver.infrastructure.parser.contract;
 
-import com.thanos.mockserver.domain.contract.NewContract;
+import com.thanos.mockserver.domain.contract.Contract;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,8 +22,8 @@ public class ContractDTO {
     LinkedHashMap<String, Object> req;
     LinkedHashMap<String, Object> res;
 
-    public static List<NewContract> buildFrom(Iterable<Object> ymlResult) {
-        final List<NewContract> result = new ArrayList<>();
+    public static List<Contract> buildFrom(Iterable<Object> ymlResult) {
+        final List<Contract> result = new ArrayList<>();
         for (Object record : ymlResult) {
             if (record instanceof ContractDTO) {
                 result.add(((ContractDTO) record).toNewContract());
@@ -32,8 +32,8 @@ public class ContractDTO {
         return result;
     }
 
-    public NewContract toNewContract() {
-        return new NewContract(name.trim().toUpperCase(),
+    public Contract toNewContract() {
+        return new Contract(name.trim().toUpperCase(),
                 schema.get("name").trim().toUpperCase(),
                 schema.get("version").trim().toUpperCase(),
                 schema.get("consumer").trim().toUpperCase(),

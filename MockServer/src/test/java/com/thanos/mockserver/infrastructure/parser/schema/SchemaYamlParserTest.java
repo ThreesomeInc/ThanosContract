@@ -1,6 +1,6 @@
 package com.thanos.mockserver.infrastructure.parser.schema;
 
-import com.thanos.mockserver.domain.schema.NewSchema;
+import com.thanos.mockserver.domain.schema.Schema;
 import com.thanos.mockserver.domain.schema.SchemaService;
 import org.junit.Test;
 
@@ -8,7 +8,6 @@ import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class SchemaYamlParserTest {
 
@@ -18,7 +17,7 @@ public class SchemaYamlParserTest {
         final URL resource = SchemaService.class.getClassLoader().getResource("schemas/");
         SchemaYamlParser schemaYamlParser = new SchemaYamlParser();
 
-        final List<NewSchema> result = schemaYamlParser.parse(resource.getPath(), "10400.yml");
+        final List<Schema> result = schemaYamlParser.parse(resource.getPath(), "10400.yml");
 
         System.out.println(result);
         assertEquals(1, result.size());
@@ -26,7 +25,6 @@ public class SchemaYamlParserTest {
 
         assertEquals(5, result.get(0).getRequest().size());
         assertEquals("MESSAGE_TYPE", result.get(0).getRequest().get(2).getName());
-        assertTrue(result.get(0).getRequest().get(2).getMatchingKey());
 
         assertEquals(result.get(0).getResponse().size(), 5);
 
