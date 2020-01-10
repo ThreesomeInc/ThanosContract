@@ -1,6 +1,6 @@
 package com.thanos.mockserver.domain.schema;
 
-import com.thanos.mockserver.validate.Validator;
+import com.thanos.mockserver.domain.validate.Validator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

@@ -1,8 +1,0 @@
-name: test case 1
-req:
-  Flag: 0
-  TranCode: AA
-res:
-  Status: 200
-  ResponseTime: 20191212
-

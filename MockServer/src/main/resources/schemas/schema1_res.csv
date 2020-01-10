@@ -1,3 +1,0 @@
-id,name          ,type,length,validation
-1 ,"Status"      ,NUM ,3     ,"regex(\d{3})"
-2 ,"ResponseTime",CHAR,8     ,"20191212"

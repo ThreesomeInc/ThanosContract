@@ -1,6 +1,5 @@
 package com.thanos.mockserver.domain.schema;
 
-import com.thanos.mockserver.infrastructure.parser.FileParser;
 import com.thanos.mockserver.infrastructure.parser.schema.SchemaYamlParser;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +25,7 @@ public class SchemaService {
     }
 
     List<String> getAllSchemaPaths() {
-        final URL resource = FileParser.class.getClassLoader().getResource("schemas/new");
+        final URL resource = SchemaService.class.getClassLoader().getResource("schemas");
         try {
             return Files.walk(Paths.get(resource.getPath()))
                     .filter(Files::isRegularFile)

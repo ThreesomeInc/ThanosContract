@@ -1,6 +1,5 @@
 package com.thanos.mockserver.domain.contract;
 
-import com.thanos.mockserver.infrastructure.parser.FileParser;
 import com.thanos.mockserver.infrastructure.parser.contract.NewContractParser;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +26,7 @@ public class ContractService {
     }
 
     List<String> getAllContractPaths() {
-        final URL resource = FileParser.class.getClassLoader().getResource("contracts/new");
+        final URL resource = ContractService.class.getClassLoader().getResource("contracts");
         try {
             return Files.walk(Paths.get(resource.getPath()))
                     .filter(Files::isRegularFile)

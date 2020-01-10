@@ -1,4 +1,4 @@
-package com.thanos.mockserver.validate;
+package com.thanos.mockserver.domain.validate;
 
 import pl.joegreen.lambdaFromString.LambdaCreationException;
 import pl.joegreen.lambdaFromString.LambdaFactory;

@@ -1,11 +1,7 @@
-package com.thanos.mockserver.lex;
+package com.thanos.mockserver.domain.lex;
 
 import com.google.common.collect.ImmutableMap;
-import com.thanos.mockserver.validate.DefaultValidator;
-import com.thanos.mockserver.validate.FuncValidator;
-import com.thanos.mockserver.validate.PlainTextValidator;
-import com.thanos.mockserver.validate.RegexValidator;
-import com.thanos.mockserver.validate.Validator;
+import com.thanos.mockserver.domain.validate.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import sun.misc.FloatingDecimal;

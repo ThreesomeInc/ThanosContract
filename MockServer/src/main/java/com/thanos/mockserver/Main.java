@@ -2,42 +2,29 @@ package com.thanos.mockserver;
 
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import com.thanos.mockserver.handler.MockServerController;
-import com.thanos.mockserver.handler.RequestHandler;
-import com.thanos.mockserver.handler.RestApiController;
-import com.thanos.mockserver.registry.RegisteredRecord;
+import com.thanos.mockserver.controller.MockServerController;
+import com.thanos.mockserver.controller.RestApiController;
 import io.muserver.Method;
 import io.muserver.MuServer;
 import io.muserver.rest.RestHandlerBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static io.muserver.MuServerBuilder.httpServer;
 
 @Slf4j
 public class Main {
 
-    static final List<RegisteredRecord> fullRecord = Arrays.asList(
-            new RegisteredRecord("consumer0", "provider", "schema1"),
-            new RegisteredRecord("consumer1", "provider", "schema1"));
-//            new RegisteredRecord("bocs", "lims", "10400"));
-
     private static MuServer webServer;
+
     private static MockServerController mockServerController = new MockServerController();
 
     public static void main(String[] args) {
         try {
             startupWebServer();
-
-//            startupRegistedMock();
             mockServerController.startupMockServer();
-
-            log.info("Mock Server is up!");
+            log.info("Service is up!");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
@@ -64,13 +51,6 @@ public class Main {
                 })).start();
 
         System.out.println("Web Server started at " + webServer.uri());
-    }
-
-    private static void startupRegistedMock() {
-        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        for (RegisteredRecord registeredRecord : fullRecord) {
-            executor.execute(new RequestHandler(registeredRecord));
-        }
     }
 
 }

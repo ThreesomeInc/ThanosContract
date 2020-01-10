@@ -81,7 +81,7 @@ public class MockServerHandler implements Runnable {
             for (NewContract contract : contractToMatch) {
                 if (contract.matchRequest(msg)) {
                     final String result = contract.buildResponse(msg.getMatchedSchema());
-                    log.info("Contract {}/{} matched and response is {}",
+                    log.info("Contract {}/{} matched and response is [{}]",
                             contract.getIndex(), contract.getName(), result);
                     return result;
                 }

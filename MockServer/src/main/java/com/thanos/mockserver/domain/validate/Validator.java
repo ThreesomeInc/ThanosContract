@@ -1,4 +1,4 @@
-package com.thanos.mockserver.validate;
+package com.thanos.mockserver.domain.validate;
 
 public interface Validator {
     String name();

@@ -1,4 +1,4 @@
-package com.thanos.mockserver.validate;
+package com.thanos.mockserver.domain.validate;
 
 public class RegexValidator implements Validator {
     public final static String NAME = "regex";

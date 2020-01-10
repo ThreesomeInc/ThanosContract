@@ -1,8 +1,10 @@
 package com.thanos.mockserver.infrastructure.parser.schema;
 
 import com.thanos.mockserver.domain.schema.NewSchema;
+import com.thanos.mockserver.domain.schema.SchemaService;
 import org.junit.Test;
 
+import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -13,9 +15,10 @@ public class SchemaYamlParserTest {
     @Test
     public void parse() {
 
+        final URL resource = SchemaService.class.getClassLoader().getResource("schemas/");
         SchemaYamlParser schemaYamlParser = new SchemaYamlParser();
 
-        final List<NewSchema> result = schemaYamlParser.parse("schemas/", "10400.yml");
+        final List<NewSchema> result = schemaYamlParser.parse(resource.getPath(), "10400.yml");
 
         System.out.println(result);
         assertEquals(1, result.size());

@@ -1,4 +1,4 @@
-package com.thanos.mockserver.validate;
+package com.thanos.mockserver.domain.validate;
 
 public class DefaultValidator implements Validator {
     @Override

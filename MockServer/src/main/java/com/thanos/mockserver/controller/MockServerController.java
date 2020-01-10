@@ -1,4 +1,4 @@
-package com.thanos.mockserver.handler;
+package com.thanos.mockserver.controller;
 
 import com.thanos.mockserver.domain.MockServerHandler;
 import com.thanos.mockserver.domain.contract.ContractService;

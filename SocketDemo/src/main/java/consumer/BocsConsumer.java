@@ -5,7 +5,7 @@ import java.net.Socket;
 
 public class BocsConsumer {
 
-    private static final int PORT = 59768;
+    private static final int PORT = 62649;
     private static final String HOST = "127.0.0.1";
     private static final String CRLF = System.lineSeparator();
 

@@ -47,6 +47,6 @@ response:
     validation: 'regex([a-zA-Z0-9]{10})'
   - name: MEMO
     type: CHAR
-    length: 100
-    validation: 'regex([a-zA-Z0-9]{100})'
+    length: 40
+    validation: 'regex([a-zA-Z0-9]{40})'
 

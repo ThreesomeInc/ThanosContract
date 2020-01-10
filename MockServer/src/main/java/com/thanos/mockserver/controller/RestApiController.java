@@ -1,4 +1,4 @@
-package com.thanos.mockserver.handler;
+package com.thanos.mockserver.controller;
 
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.Subscribe;

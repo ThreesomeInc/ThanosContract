@@ -1,6 +1,6 @@
-package com.thanos.mockserver.validate;
+package com.thanos.mockserver.domain.validate;
 
-import com.thanos.mockserver.lex.Lexer;
+import com.thanos.mockserver.domain.lex.Lexer;
 import org.junit.Before;
 import org.junit.Test;
 import pl.joegreen.lambdaFromString.LambdaCreationException;
