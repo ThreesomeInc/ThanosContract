@@ -1,5 +1,6 @@
 package com.thanos.mockserver.infrastructure.parser;
 
+import com.mifmif.common.regex.Generex;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -42,10 +43,10 @@ public class ContractTest {
 
     @Test
     public void test_regex_generation() {
-//        Generex generex = new Generex("(0|1){2}");
-//        final String random = generex.random();
-//        System.out.println("'"+random+"'");
-        assertTrue("          ".matches("\\s{10}"));
+        Generex generex = new Generex("\\d{10}");
+        final String random = generex.random();
+        System.out.println("'" + random + "'");
+//        assertTrue("          ".matches("\\s{10}"));
 
     }
 }

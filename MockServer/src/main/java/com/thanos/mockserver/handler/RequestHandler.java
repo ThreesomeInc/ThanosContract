@@ -2,6 +2,7 @@ package com.thanos.mockserver.handler;
 
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.io.CharStreams;
+import com.thanos.mockserver.domain.schema.NewSchema;
 import com.thanos.mockserver.exception.ParseException;
 import com.thanos.mockserver.infrastructure.eventbus.EventBusFactory;
 import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
@@ -26,6 +27,9 @@ public class RequestHandler implements Runnable {
 
     private List<Schema> requestSchemaList;
     private List<Schema> responseSchemaList;
+
+    private List<NewSchema> newSchemaList;
+
     private List<Contract> contractList;
     private RegisteredRecord registeredRecord;
     private AsyncEventBus asyncEventBus;

@@ -1,7 +1,7 @@
-package com.thanos.mockserver.infrastructure.parser.dto;
+package com.thanos.mockserver.infrastructure.parser.schema;
 
-import com.thanos.mockserver.domain.Field;
-import com.thanos.mockserver.domain.NewSchema;
+import com.thanos.mockserver.domain.schema.Field;
+import com.thanos.mockserver.domain.schema.NewSchema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +9,6 @@ import lombok.ToString;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter
@@ -20,6 +19,7 @@ public class SchemaDTO {
 
     String version;
     String name;
+    String provider;
     List<FragmentDTO> header;
     List<FragmentDTO> request;
     List<FragmentDTO> response;
@@ -52,8 +52,8 @@ public class SchemaDTO {
         LinkedList<Field> mergedResponseFields = new LinkedList<>(headerFields);
         mergedResponseFields.addAll(responseFields);
 
-        return new NewSchema(
-                UUID.randomUUID().toString(), this.version, this.name,
+        return new NewSchema(this.provider.trim().toUpperCase(),
+                this.version.trim().toUpperCase(), this.name.trim().toUpperCase(),
                 mergedRequestFields, mergedResponseFields);
     }
 }

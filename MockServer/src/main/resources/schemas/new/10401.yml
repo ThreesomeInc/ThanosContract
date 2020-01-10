@@ -1,0 +1,48 @@
+name: 10401
+version: 20200102
+provider: 'lims'
+header:
+- name: IPS_Header
+  version: 20100101
+  fields:
+  - name: MSG_TYPE
+    type: CHAR
+    length: 1
+    validation: 'regex(0|1)'
+  - name: TRAN_ASYNC
+    type: CHAR
+    length: 1
+    validation: 'regex(0|1)'
+- name: BOS_Header
+  version: 20100109
+  fields:
+  - name: MESSAGE_TYPE
+    type: NUM
+    length: 5
+    validation: '10401'
+    matchingKey: True
+  - name: TCODE
+    type: NUM
+    length: 6
+    validation: 'regex(\d{6})'
+request:
+- name: 10401
+  version: 20100112
+  fields:
+  - name: ACCT_NO
+    type: NUM
+    length: 17
+    validation: 'regex(\d{17})'
+  - name: CHOICE
+    type: CHAR
+    length: 1
+    validation: 'regex(2)'
+response:
+- name: 32106
+  version: 20100101
+  fields:
+  - name: SUPPLEMENT
+    type: CHAR
+    length: 10
+    validation: 'regex([a-zA-Z0-9]{10})'
+

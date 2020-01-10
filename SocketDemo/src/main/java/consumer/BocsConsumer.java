@@ -5,11 +5,11 @@ import java.net.Socket;
 
 public class BocsConsumer {
 
-    private static final int PORT = 55570;
+    private static final int PORT = 59768;
     private static final String HOST = "127.0.0.1";
     private static final String CRLF = System.lineSeparator();
 
-    private static final String REQUEST = "00123456789005Di1pG2h0UsrmsJXCTIa999123456789012345678901234567890111234567890123456789012345678902212345678901234567890123456789033          000100000011111122222299999999940123456789012345671          ";
+    private static final String REQUEST = "0010400123456123456789012345671";
 
     public static void main(String[] args) {
 

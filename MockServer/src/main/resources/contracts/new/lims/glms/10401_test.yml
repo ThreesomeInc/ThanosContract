@@ -1,0 +1,18 @@
+name: test case 1 for 10401
+schema:
+  name: '10401'
+  version: '20200102'
+  provider: 'lims'
+  consumer: 'glms'
+req:
+  MSG_TYPE: '0'
+  TRAN_ASYNC: '0'
+  MESSAGE_TYPE: '10401'
+  TCODE: '123456'
+  ACCT_NO: '12345678901234567'
+  CHOICE: '2'
+res:
+  MSG_TYPE: '0'
+  TRAN_ASYNC: '0'
+  MESSAGE_TYPE: '01'
+  SUPPLEMENT: 'Supplement'

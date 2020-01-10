@@ -1,4 +1,4 @@
-package com.thanos.mockserver.infrastructure.parser.dto;
+package com.thanos.mockserver.infrastructure.parser.schema;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

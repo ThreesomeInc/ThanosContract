@@ -2,8 +2,9 @@ package com.thanos.mockserver;
 
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import com.thanos.mockserver.handler.MockMappingHandler;
+import com.thanos.mockserver.handler.MockServerController;
 import com.thanos.mockserver.handler.RequestHandler;
+import com.thanos.mockserver.handler.RestApiController;
 import com.thanos.mockserver.registry.RegisteredRecord;
 import io.muserver.Method;
 import io.muserver.MuServer;
@@ -26,33 +27,43 @@ public class Main {
             new RegisteredRecord("consumer1", "provider", "schema1"));
 //            new RegisteredRecord("bocs", "lims", "10400"));
 
+    private static MuServer webServer;
+    private static MockServerController mockServerController = new MockServerController();
 
     public static void main(String[] args) {
         try {
             startupWebServer();
-            startupRegistedMock();
+
+//            startupRegistedMock();
+            mockServerController.startupMockServer();
+
             log.info("Mock Server is up!");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
         }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            log.info("Shutting down...");
+            webServer.stop();
+            log.info("Shut down complete.");
+        }));
     }
 
     private static void startupWebServer() throws IOException {
-        MuServer server = httpServer()
+        webServer = httpServer()
                 .withHttpPort(8081)
-                .addHandler(RestHandlerBuilder.restHandler(new MockMappingHandler())
+                .addHandler(RestHandlerBuilder.restHandler(new RestApiController())
                         .withOpenApiJsonUrl("/openapi.json")
                         .withOpenApiHtmlUrl("/api.html")
                         .addCustomWriter(new JacksonJaxbJsonProvider())
                         .addCustomReader(new JacksonJaxbJsonProvider())
                         .withOpenApiHtmlUrl("/api.html"))
                 .addHandler(Method.GET, "/", ((muRequest, muResponse, map) -> {
-//                    muResponse.write("HelloWorld");
                     muResponse.redirect("/api.html");
-                }))
-                .start();
-        System.out.println("Web Server started at " + server.uri());
+                })).start();
+
+        System.out.println("Web Server started at " + webServer.uri());
     }
 
     private static void startupRegistedMock() {

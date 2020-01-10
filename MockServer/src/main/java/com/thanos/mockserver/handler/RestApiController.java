@@ -15,11 +15,11 @@ import java.util.List;
 
 @Slf4j
 @Path("/mocks")
-public class MockMappingHandler {
+public class RestApiController {
 
     List<NewMockEvent> mockInfoList = new ArrayList<>();
 
-    public MockMappingHandler() {
+    public RestApiController() {
         final AsyncEventBus asyncEventBus = EventBusFactory.getInstance();
         asyncEventBus.register(this);
     }

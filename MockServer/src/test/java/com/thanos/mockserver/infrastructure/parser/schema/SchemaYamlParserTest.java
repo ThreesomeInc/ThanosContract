@@ -1,6 +1,6 @@
-package com.thanos.mockserver.infrastructure.parser;
+package com.thanos.mockserver.infrastructure.parser.schema;
 
-import com.thanos.mockserver.domain.NewSchema;
+import com.thanos.mockserver.domain.schema.NewSchema;
 import org.junit.Test;
 
 import java.util.List;

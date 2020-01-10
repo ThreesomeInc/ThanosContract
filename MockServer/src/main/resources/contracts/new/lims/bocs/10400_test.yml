@@ -1,0 +1,19 @@
+name: test case 1
+schema:
+  name: '10400'
+  version: '20200101'
+  provider: 'lims'
+  consumer: 'bocs'
+req:
+  MSG_TYPE: '0'
+  TRAN_ASYNC: '0'
+  MESSAGE_TYPE: '10400'
+  TCODE: '123456'
+  ACCT_NO: '12345678901234567'
+  CHOICE: '1'
+res:
+  MSG_TYPE: '0'
+  TRAN_ASYNC: '0'
+  MESSAGE_TYPE: '00'
+  TCODE: '123456'
+  MEMO: 'This is the expected memo for choice 1'
