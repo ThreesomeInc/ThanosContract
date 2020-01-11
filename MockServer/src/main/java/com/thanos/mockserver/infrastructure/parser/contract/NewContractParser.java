@@ -1,6 +1,6 @@
 package com.thanos.mockserver.infrastructure.parser.contract;
 
-import com.thanos.mockserver.domain.contract.Contract;
+import com.thanos.mockserver.domain.Contract;
 import com.thanos.mockserver.exception.ParseException;
 import lombok.extern.slf4j.Slf4j;
 import org.yaml.snakeyaml.Yaml;

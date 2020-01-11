@@ -1,9 +1,6 @@
-package com.thanos.mockserver.domain.contract;
+package com.thanos.mockserver.domain;
 
 import com.mifmif.common.regex.Generex;
-import com.thanos.mockserver.domain.Message;
-import com.thanos.mockserver.domain.schema.Field;
-import com.thanos.mockserver.domain.schema.Schema;
 import com.thanos.mockserver.domain.validate.PlainTextValidator;
 import com.thanos.mockserver.domain.validate.RegexValidator;
 import lombok.AllArgsConstructor;

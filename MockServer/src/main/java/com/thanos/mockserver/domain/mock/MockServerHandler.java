@@ -1,8 +1,10 @@
-package com.thanos.mockserver.domain;
+package com.thanos.mockserver.domain.mock;
 
 import com.google.common.io.CharStreams;
-import com.thanos.mockserver.domain.contract.Contract;
-import com.thanos.mockserver.domain.schema.Schema;
+import com.thanos.mockserver.controller.SimpleCache;
+import com.thanos.mockserver.domain.Contract;
+import com.thanos.mockserver.domain.Message;
+import com.thanos.mockserver.domain.Schema;
 import com.thanos.mockserver.infrastructure.eventbus.EventBusFactory;
 import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +30,21 @@ public class MockServerHandler implements Runnable {
     private List<Contract> contractList;
     private List<Schema> schemaList;
 
-    public MockServerHandler(String index, List<Contract> contractList, List<Schema> schemaList) {
+    public MockServerHandler(String index) {
         this.index = index;
-        this.contractList = contractList;
-        this.schemaList = schemaList;
+        buildLocalCache();
+    }
+
+    void buildLocalCache() {
+        contractList = SimpleCache.getContracts().stream()
+                .filter(contract -> contract.getIndex().equals(index))
+                .collect(Collectors.toList());
+
+        final List<String> schemaNeeded = contractList.stream()
+                .map(Contract::getSchemaName).collect(Collectors.toList());
+        schemaList = SimpleCache.getSchemas().stream()
+                .filter(schema -> schemaNeeded.contains(schema.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -59,10 +72,8 @@ public class MockServerHandler implements Runnable {
         ServerSocket ss = new ServerSocket(0);
         log.info("MockServer for {} start up @ {}", index, ss.getLocalPort());
 
-        EventBusFactory.getInstance().post(new NewMockEvent(ss.getLocalPort(),
-                contractList.get(0).getConsumer(),
-                contractList.get(0).getProvider())
-        );
+        EventBusFactory.getInstance().post(
+                new NewMockEvent(contractList.get(0).getIndex(), ss.getLocalPort()));
 
         return ss;
     }
@@ -81,7 +92,7 @@ public class MockServerHandler implements Runnable {
             for (Contract contract : contractToMatch) {
                 if (contract.matchRequest(msg)) {
                     final String result = contract.buildResponse(msg.getMatchedSchema());
-                    log.info("Contract {}/{} matched and response is [{}]",
+                    log.info("Matched contract {}/{}, responding [{}]",
                             contract.getIndex(), contract.getName(), result);
                     return result;
                 }

@@ -1,4 +1,4 @@
-package com.thanos.mockserver.domain.schema;
+package com.thanos.mockserver.domain;
 
 import com.thanos.mockserver.domain.validate.Validator;
 import lombok.Getter;

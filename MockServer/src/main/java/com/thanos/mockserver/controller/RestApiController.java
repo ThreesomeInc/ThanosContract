@@ -10,14 +10,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Path("/mocks")
+@Path("/apis")
 public class RestApiController {
-
-    List<NewMockEvent> mockInfoList = new ArrayList<>();
 
     public RestApiController() {
         final AsyncEventBus asyncEventBus = EventBusFactory.getInstance();
@@ -26,14 +23,15 @@ public class RestApiController {
 
     @Subscribe
     public void handleAddNewMockEvent(NewMockEvent newMockEvent) {
-        log.info("Receive new mock startup: {}", newMockEvent);
-        mockInfoList.add(newMockEvent);
+        SimpleCache.addNewMockInfo(newMockEvent);
+        log.info("Receive new mock startup and updated cache: {}", newMockEvent);
     }
 
     @GET
+    @Path("/mappings")
     @Produces(MediaType.APPLICATION_JSON)
     public List<NewMockEvent> getAllMocks() {
-        return mockInfoList;
+        return SimpleCache.getMockInfoList();
     }
 
 

@@ -1,6 +1,6 @@
 package com.thanos.mockserver.infrastructure.parser.contract;
 
-import com.thanos.mockserver.domain.contract.Contract;
+import com.thanos.mockserver.domain.Contract;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

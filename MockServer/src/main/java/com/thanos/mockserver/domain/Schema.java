@@ -1,7 +1,6 @@
-package com.thanos.mockserver.domain.schema;
+package com.thanos.mockserver.domain;
 
 import com.google.common.collect.Maps;
-import com.thanos.mockserver.domain.Message;
 import com.thanos.mockserver.exception.ParseException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

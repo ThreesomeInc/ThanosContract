@@ -1,6 +1,5 @@
 package com.thanos.mockserver.domain;
 
-import com.thanos.mockserver.domain.schema.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

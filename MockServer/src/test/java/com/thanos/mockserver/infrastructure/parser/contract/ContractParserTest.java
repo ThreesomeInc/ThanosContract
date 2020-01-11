@@ -1,7 +1,6 @@
 package com.thanos.mockserver.infrastructure.parser.contract;
 
-import com.thanos.mockserver.domain.contract.Contract;
-import com.thanos.mockserver.domain.schema.SchemaService;
+import com.thanos.mockserver.domain.Contract;
 import org.junit.Test;
 
 import java.net.URL;
@@ -14,7 +13,7 @@ public class ContractParserTest {
     @Test
     public void parse() {
 
-        final URL resource = SchemaService.class.getClassLoader().getResource("contracts/lims/bocs/");
+        final URL resource = ContractParserTest.class.getClassLoader().getResource("contracts/lims/bocs/");
 
         final NewContractParser newContractParser = new NewContractParser();
 
@@ -30,7 +29,7 @@ public class ContractParserTest {
 
     @Test
     public void parse_with_full_path() {
-        final URL resource = SchemaService.class.getClassLoader().getResource("contracts/lims/bocs/10400_test.yml");
+        final URL resource = ContractParserTest.class.getClassLoader().getResource("contracts/lims/bocs/10400_test.yml");
 
         final NewContractParser newContractParser = new NewContractParser();
 

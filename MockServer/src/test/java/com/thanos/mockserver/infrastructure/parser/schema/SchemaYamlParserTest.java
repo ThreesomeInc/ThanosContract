@@ -1,7 +1,6 @@
 package com.thanos.mockserver.infrastructure.parser.schema;
 
-import com.thanos.mockserver.domain.schema.Schema;
-import com.thanos.mockserver.domain.schema.SchemaService;
+import com.thanos.mockserver.domain.Schema;
 import org.junit.Test;
 
 import java.net.URL;
@@ -14,7 +13,7 @@ public class SchemaYamlParserTest {
     @Test
     public void parse() {
 
-        final URL resource = SchemaService.class.getClassLoader().getResource("schemas/");
+        final URL resource = SchemaYamlParserTest.class.getClassLoader().getResource("schemas/");
         SchemaYamlParser schemaYamlParser = new SchemaYamlParser();
 
         final List<Schema> result = schemaYamlParser.parse(resource.getPath(), "10400.yml");

@@ -1,7 +1,7 @@
 package com.thanos.mockserver.infrastructure.parser.schema;
 
-import com.thanos.mockserver.domain.schema.Field;
-import com.thanos.mockserver.domain.schema.Schema;
+import com.thanos.mockserver.domain.Field;
+import com.thanos.mockserver.domain.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -11,8 +11,7 @@ import lombok.ToString;
 @ToString
 public class NewMockEvent {
 
+    String index;
     int port;
-    String consumerName;
-    String providerName;
 
 }
