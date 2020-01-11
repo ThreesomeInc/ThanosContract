@@ -25,7 +25,11 @@ public class Main {
             ScheduleHelper.initScheduler();
             startupWebServer();
             mockServerController.init();
-            log.info("Service is up!");
+
+            log.info("###########################################");
+            log.info("#           Service is up!                #");
+            log.info("###########################################");
+
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
@@ -34,7 +38,9 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             log.info("Shutting down...");
             webServer.stop();
-            log.info("Shut down complete.");
+            log.info("###########################################");
+            log.info("#       Shut down complete !              #");
+            log.info("###########################################");
         }));
     }
 

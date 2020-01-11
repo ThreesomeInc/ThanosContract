@@ -2,6 +2,8 @@ package com.thanos.mockserver.controller;
 
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.Subscribe;
+import com.thanos.mockserver.domain.Contract;
+import com.thanos.mockserver.domain.Schema;
 import com.thanos.mockserver.domain.SimpleCache;
 import com.thanos.mockserver.infrastructure.eventbus.EventBusFactory;
 import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
@@ -33,6 +35,20 @@ public class RestApiController {
     @Produces(MediaType.APPLICATION_JSON)
     public List<NewMockEvent> getAllMocks() {
         return SimpleCache.getMockInfoList();
+    }
+
+    @GET
+    @Path("/contracts")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Contract> getAllContracts() {
+        return SimpleCache.getContracts();
+    }
+
+    @GET
+    @Path("/schemas")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Schema> getAllSchemas() {
+        return SimpleCache.getSchemas();
     }
 
 
