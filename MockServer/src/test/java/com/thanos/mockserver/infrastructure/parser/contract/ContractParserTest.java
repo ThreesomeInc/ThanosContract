@@ -15,10 +15,10 @@ public class ContractParserTest {
 
         final URL resource = ContractParserTest.class.getClassLoader().getResource("contracts/lims/bocs/");
 
-        final NewContractParser newContractParser = new NewContractParser();
+        final ContractParser contractParser = new ContractParser();
 
         final List<Contract> result =
-                newContractParser.parse(resource.getPath(), "10400_test.yml");
+                contractParser.parse(resource.getPath(), "10400_test.yml");
 
         System.out.println(result);
 
@@ -31,10 +31,10 @@ public class ContractParserTest {
     public void parse_with_full_path() {
         final URL resource = ContractParserTest.class.getClassLoader().getResource("contracts/lims/bocs/10400_test.yml");
 
-        final NewContractParser newContractParser = new NewContractParser();
+        final ContractParser contractParser = new ContractParser();
 
         final List<Contract> result =
-                newContractParser.parse(resource.getPath());
+                contractParser.parse(resource.getPath());
 
         System.out.println(result);
 

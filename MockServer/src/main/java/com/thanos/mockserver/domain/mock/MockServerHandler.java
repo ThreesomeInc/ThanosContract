@@ -1,10 +1,10 @@
 package com.thanos.mockserver.domain.mock;
 
 import com.google.common.io.CharStreams;
-import com.thanos.mockserver.controller.SimpleCache;
 import com.thanos.mockserver.domain.Contract;
 import com.thanos.mockserver.domain.Message;
 import com.thanos.mockserver.domain.Schema;
+import com.thanos.mockserver.domain.SimpleCache;
 import com.thanos.mockserver.infrastructure.eventbus.EventBusFactory;
 import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
 import lombok.extern.slf4j.Slf4j;

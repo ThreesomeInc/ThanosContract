@@ -8,15 +8,15 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class SchemaYamlParserTest {
+public class SchemaParserTest {
 
     @Test
     public void parse() {
 
-        final URL resource = SchemaYamlParserTest.class.getClassLoader().getResource("schemas/");
-        SchemaYamlParser schemaYamlParser = new SchemaYamlParser();
+        final URL resource = SchemaParserTest.class.getClassLoader().getResource("schemas/");
+        SchemaParser schemaParser = new SchemaParser();
 
-        final List<Schema> result = schemaYamlParser.parse(resource.getPath(), "10400.yml");
+        final List<Schema> result = schemaParser.parse(resource.getPath(), "10400.yml");
 
         System.out.println(result);
         assertEquals(1, result.size());

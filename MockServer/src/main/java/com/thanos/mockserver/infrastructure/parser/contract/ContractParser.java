@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @Slf4j
-public class NewContractParser {
+public class ContractParser {
 
     Yaml yaml = new Yaml(new Constructor(ContractDTO.class));
 

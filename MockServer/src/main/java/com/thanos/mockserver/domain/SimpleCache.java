@@ -1,10 +1,8 @@
-package com.thanos.mockserver.controller;
+package com.thanos.mockserver.domain;
 
-import com.thanos.mockserver.domain.Contract;
-import com.thanos.mockserver.domain.Schema;
 import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
-import com.thanos.mockserver.infrastructure.parser.contract.NewContractParser;
-import com.thanos.mockserver.infrastructure.parser.schema.SchemaYamlParser;
+import com.thanos.mockserver.infrastructure.parser.contract.ContractParser;
+import com.thanos.mockserver.infrastructure.parser.schema.SchemaParser;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -30,7 +28,7 @@ public class SimpleCache {
 
     static {
         final List<String> contractPaths = getAllContractPaths();
-        final NewContractParser contractParser = new NewContractParser();
+        final ContractParser contractParser = new ContractParser();
 
         contracts = contractPaths.stream()
                 .map(contractParser::parse)
@@ -39,9 +37,9 @@ public class SimpleCache {
 
     static {
         final List<String> schemaPaths = getAllSchemaPaths();
-        final SchemaYamlParser schemaYamlParser = new SchemaYamlParser();
+        final SchemaParser schemaParser = new SchemaParser();
         schemas = schemaPaths.stream()
-                .map(schemaYamlParser::parse)
+                .map(schemaParser::parse)
                 .flatMap(Collection::stream).collect(Collectors.toList());
     }
 
