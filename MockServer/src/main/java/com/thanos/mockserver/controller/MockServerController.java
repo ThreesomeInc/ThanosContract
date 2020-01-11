@@ -14,10 +14,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MockServerController {
 
+    public void init() {
+        startNewMocks();
+    }
     /**
      * Group mock server by provider-consumer
      */
-    public void startupMockServer() {
+    void startNewMocks() {
         final List<String> existingIndex = SimpleCache.getMockInfoList().stream()
                 .map(NewMockEvent::getIndex).collect(Collectors.toList());
 
@@ -28,7 +31,7 @@ public class MockServerController {
                 .forEach(this::createNewMockForIndex);
     }
 
-    void createNewMockForIndex(String index) {
+    private void createNewMockForIndex(String index) {
         log.info("Creating new mock server {}", index);
         ExecutorService executor =
                 Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
