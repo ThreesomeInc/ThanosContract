@@ -49,4 +49,14 @@ public class FuncValidator implements Validator {
     public boolean validate(String actualValue) {
         return function.apply(actualValue);
     }
+
+    @Override
+    public String getExpectedValue() {
+        return "";
+    }
+
+    @Override
+    public String toString() {
+        return this.name();
+    }
 }

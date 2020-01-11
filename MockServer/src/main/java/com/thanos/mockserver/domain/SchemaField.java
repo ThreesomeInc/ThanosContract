@@ -3,18 +3,16 @@ package com.thanos.mockserver.domain;
 import com.thanos.mockserver.domain.validate.Validator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
-@ToString
 @NoArgsConstructor
-public class Field {
+public class SchemaField {
     String name;
     String type;
     Integer length;
     Validator validator;
 
-    public Field(String name, String type, Integer length, Validator validator) {
+    public SchemaField(String name, String type, Integer length, Validator validator) {
         this.name = name;
         this.type = type;
         this.length = length;
@@ -23,5 +21,10 @@ public class Field {
 
     public boolean match(String extractedContent) {
         return validator.validate(extractedContent);
+    }
+
+    @Override
+    public String toString() {
+        return "SchemaField{" + name + '|' + type + '|' + length + '|' + validator + '}';
     }
 }

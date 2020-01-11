@@ -19,23 +19,23 @@ public class Schema {
     private String provider;
     private String version;
     private String name;
-    private LinkedList<Field> request;
-    private LinkedList<Field> response;
+    private LinkedList<SchemaField> request;
+    private LinkedList<SchemaField> response;
 
 
     public Message parseRequest(String reqMsg) {
         try {
-            LinkedHashMap<String, Object> parseResult = Maps.newLinkedHashMap();
+            LinkedHashMap<String, String> parseResult = Maps.newLinkedHashMap();
             int startIndex = 0;
-            for (Field field : request) {
+            for (SchemaField schemaField : request) {
                 final String extractedContent =
-                        reqMsg.substring(startIndex, startIndex + field.getLength());
+                        reqMsg.substring(startIndex, startIndex + schemaField.getLength());
 
-                if (!field.match(extractedContent)) {
+                if (!schemaField.match(extractedContent)) {
                     throw new ParseException("Request does not match this schema: " + this.name);
                 } else {
-                    parseResult.put(field.getName(), extractedContent);
-                    startIndex += field.getLength();
+                    parseResult.put(schemaField.getName(), extractedContent);
+                    startIndex += schemaField.getLength();
                 }
             }
             return new Message(this, parseResult);

@@ -1,7 +1,7 @@
 package com.thanos.mockserver.infrastructure.parser.schema;
 
-import com.thanos.mockserver.domain.Field;
 import com.thanos.mockserver.domain.Schema;
+import com.thanos.mockserver.domain.SchemaField;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,20 +36,20 @@ public class SchemaDTO {
 
     public Schema toSchema() {
 
-        final LinkedList<Field> headerFields = header.stream()
+        final LinkedList<SchemaField> headerFields = header.stream()
                 .flatMap(fragmentDTO -> fragmentDTO.getFields().stream().map(FieldDTO::toField))
                 .collect(Collectors.toCollection(LinkedList::new));
-        final LinkedList<Field> requestFields = request.stream()
+        final LinkedList<SchemaField> requestFields = request.stream()
                 .flatMap(fragmentDTO -> fragmentDTO.getFields().stream().map(FieldDTO::toField))
                 .collect(Collectors.toCollection(LinkedList::new));
-        final LinkedList<Field> responseFields = response.stream()
+        final LinkedList<SchemaField> responseFields = response.stream()
                 .flatMap(fragmentDTO -> fragmentDTO.getFields().stream().map(FieldDTO::toField))
                 .collect(Collectors.toCollection(LinkedList::new));
 
-        LinkedList<Field> mergedRequestFields = new LinkedList<>(headerFields);
+        LinkedList<SchemaField> mergedRequestFields = new LinkedList<>(headerFields);
         mergedRequestFields.addAll(requestFields);
 
-        LinkedList<Field> mergedResponseFields = new LinkedList<>(headerFields);
+        LinkedList<SchemaField> mergedResponseFields = new LinkedList<>(headerFields);
         mergedResponseFields.addAll(responseFields);
 
         return new Schema(this.provider.trim().toUpperCase(),

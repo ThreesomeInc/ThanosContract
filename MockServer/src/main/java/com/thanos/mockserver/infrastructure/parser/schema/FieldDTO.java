@@ -1,6 +1,6 @@
 package com.thanos.mockserver.infrastructure.parser.schema;
 
-import com.thanos.mockserver.domain.Field;
+import com.thanos.mockserver.domain.SchemaField;
 import com.thanos.mockserver.domain.lex.Lexer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ public class FieldDTO {
     Integer length;
     String validation;
 
-    public Field toField() {
-        return new Field(name, type, length, new Lexer().Lex(validation));
+    public SchemaField toField() {
+        return new SchemaField(name, type, length, new Lexer().Lex(validation));
     }
 }

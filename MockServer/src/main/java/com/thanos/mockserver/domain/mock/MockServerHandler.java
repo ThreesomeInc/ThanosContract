@@ -41,7 +41,7 @@ public class MockServerHandler implements Runnable, Job {
         this.index = index;
         buildLocalCache(index);
         ScheduleHelper.addScheduler(
-                MockServerHandler.class, "UpdateCache", "0 0/1 * ? * * *", index);
+                MockServerHandler.class, "UpdateCache", "0 0/5 * ? * * *", index);
     }
 
     synchronized void buildLocalCache(String index) {
@@ -93,7 +93,6 @@ public class MockServerHandler implements Runnable, Job {
 
         if (message.isPresent()) {
             Message msg = message.get();
-            log.info(msg.toString());
 
             final List<Contract> contractToMatch = contractList.stream()
                     .filter(newContract -> newContract.getSchemaName().equals(msg.getMatchedSchema().getName()))
@@ -101,8 +100,7 @@ public class MockServerHandler implements Runnable, Job {
             for (Contract contract : contractToMatch) {
                 if (contract.matchRequest(msg)) {
                     final String result = contract.buildResponse(msg.getMatchedSchema());
-                    log.info("Matched contract {}/{}, responding [{}]",
-                            contract.getIndex(), contract.getName(), result);
+                    log.info("Incoming msg [{}] matched, responding [{}]", msg, result);
                     return result;
                 }
             }

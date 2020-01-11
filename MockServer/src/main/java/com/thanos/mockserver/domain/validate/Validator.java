@@ -5,4 +5,6 @@ public interface Validator {
 
     boolean validate(String actualValue);
 
+    String getExpectedValue();
+
 }

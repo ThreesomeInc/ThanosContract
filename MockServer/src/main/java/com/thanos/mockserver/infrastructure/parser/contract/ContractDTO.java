@@ -1,15 +1,14 @@
 package com.thanos.mockserver.infrastructure.parser.contract;
 
 import com.thanos.mockserver.domain.Contract;
+import com.thanos.mockserver.domain.ContractField;
+import com.thanos.mockserver.domain.lex.Lexer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 @Setter
@@ -19,8 +18,8 @@ public class ContractDTO {
 
     String name;
     Map<String, String> schema;
-    LinkedHashMap<String, Object> req;
-    LinkedHashMap<String, Object> res;
+    LinkedHashMap<String, String> req;
+    LinkedHashMap<String, String> res;
 
     public static List<Contract> buildFrom(Iterable<Object> ymlResult) {
         final List<Contract> result = new ArrayList<>();
@@ -33,12 +32,24 @@ public class ContractDTO {
     }
 
     public Contract toNewContract() {
+
+        LinkedList<ContractField> request = buildContractFieldList(req);
+        LinkedList<ContractField> response = buildContractFieldList(res);
         return new Contract(name.trim().toUpperCase(),
                 schema.get("name").trim().toUpperCase(),
                 schema.get("version").trim().toUpperCase(),
                 schema.get("consumer").trim().toUpperCase(),
                 schema.get("provider").trim().toUpperCase(),
-                req, res);
+                request, response);
+    }
+
+    LinkedList<ContractField> buildContractFieldList(LinkedHashMap<String, String> originDtoMap) {
+        LinkedList<ContractField> result = new LinkedList<>();
+        for (String key : originDtoMap.keySet()) {
+            String content = originDtoMap.get(key);
+            result.add(new ContractField(key, content, new Lexer().Lex(content)));
+        }
+        return result;
     }
 
 }

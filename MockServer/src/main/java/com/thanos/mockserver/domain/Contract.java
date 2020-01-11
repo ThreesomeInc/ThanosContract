@@ -1,14 +1,14 @@
 package com.thanos.mockserver.domain;
 
-import com.mifmif.common.regex.Generex;
-import com.thanos.mockserver.domain.validate.PlainTextValidator;
-import com.thanos.mockserver.domain.validate.RegexValidator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Getter
 @ToString
@@ -22,8 +22,8 @@ public class Contract {
     String consumer;
     String provider;
 
-    LinkedHashMap<String, Object> req;
-    LinkedHashMap<String, Object> res;
+    LinkedList<ContractField> req;
+    LinkedList<ContractField> res;
 
     public String getIndex() {
         return provider + '-' + consumer;
@@ -33,9 +33,9 @@ public class Contract {
      * The field listed in contract should match the value in request
      */
     public Boolean matchRequest(Message msg) {
-        for (String field : req.keySet()) {
-            if (msg.getParseRequest().containsKey(field) &&
-                    (!msg.getParseRequest().get(field).equals(req.get(field)))) {
+        for (ContractField field : req) {
+            if (msg.getParseRequest().containsKey(field.getName()) &&
+                    (!field.match(msg.getParseRequest().get(field.getName())))) {
                 return false;
             }
         }
@@ -45,18 +45,26 @@ public class Contract {
     public String buildResponse(Schema matchedSchema) {
         StringBuilder result = new StringBuilder();
 
-        for (Field field : matchedSchema.getResponse()) {
-            if (res.containsKey(field.getName())) {
-                result.append(res.get(field.getName()));
-
-            } else if (field.getValidator() instanceof RegexValidator) {
-                Generex generex = new Generex(((RegexValidator) field.getValidator()).getRegexp());
-                result.append(generex.random());
-
-            } else if (field.getValidator() instanceof PlainTextValidator) {
-                result.append(((PlainTextValidator) field.getValidator()).getExpectedValue());
+        for (SchemaField schemaField : matchedSchema.getResponse()) {
+            final Optional<ContractField> contractField = getContractFieldByName(schemaField);
+            if (contractField.isPresent()) {
+                result.append(contractField.get().getContent());
+            } else {
+                result.append((schemaField.getValidator()).getExpectedValue());
             }
         }
         return result.toString();
+    }
+
+    Optional<ContractField> getContractFieldByName(SchemaField schemaField) {
+        final List<ContractField> result = res.stream()
+                .filter(response -> response.getName().equals(schemaField.getName()))
+                .collect(Collectors.toList());
+
+        if (result.size() >= 1) {
+            return Optional.of(result.get(0));
+        } else {
+            return Optional.empty();
+        }
     }
 }

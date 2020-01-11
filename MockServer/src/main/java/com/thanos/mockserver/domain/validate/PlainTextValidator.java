@@ -11,7 +11,7 @@ public class PlainTextValidator implements Validator {
 
     @Override
     public String name() {
-        return "";
+        return "PlainTextValidator";
     }
 
     @Override
@@ -19,7 +19,13 @@ public class PlainTextValidator implements Validator {
         return Objects.equals(expectedValue, actualValue);
     }
 
+    @Override
     public String getExpectedValue() {
         return this.expectedValue;
+    }
+
+    @Override
+    public String toString() {
+        return this.name();
     }
 }
