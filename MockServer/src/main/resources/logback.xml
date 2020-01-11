@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--   格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--&lt;!&ndash; 按照每天生成日志文件 &ndash;&gt;-->
+    <!--<property name="LOG_HOME" value="./"/>-->
+    <!--<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+    <!--<file>${LOG_HOME}/project.log</file>-->
+
+    <!--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+    <!--&lt;!&ndash;日志文件输出的文件名&ndash;&gt;-->
+    <!--<fileNamePattern>${LOG_HOME}/%d{yyyyMM,aux}/mockserver-%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+    <!--<maxFileSize>10MB</maxFileSize>-->
+    <!--</rollingPolicy>-->
+    <!--<encoder>-->
+    <!--&lt;!&ndash;格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符&ndash;&gt;-->
+    <!--<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
+    <!--</encoder>-->
+    <!--</appender>-->
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="FILE"/>-->
+    </root>
+
+</configuration>

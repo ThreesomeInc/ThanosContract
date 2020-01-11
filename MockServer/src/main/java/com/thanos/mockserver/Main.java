@@ -4,12 +4,11 @@ package com.thanos.mockserver;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.thanos.mockserver.controller.MockServerController;
 import com.thanos.mockserver.controller.RestApiController;
+import com.thanos.mockserver.infrastructure.ScheduleHelper;
 import io.muserver.Method;
 import io.muserver.MuServer;
 import io.muserver.rest.RestHandlerBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
 
 import java.io.IOException;
 
@@ -23,11 +22,9 @@ public class Main {
 
     public static void main(String[] args) {
         try {
+            ScheduleHelper.initScheduler();
             startupWebServer();
-
             mockServerController.init();
-            setupSchedulerForMockServerController();
-
             log.info("Service is up!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,23 +36,6 @@ public class Main {
             webServer.stop();
             log.info("Shut down complete.");
         }));
-    }
-
-    static void setupSchedulerForMockServerController() {
-        JobDetail job = JobBuilder.newJob(MockServerController.class)
-                .withIdentity("DetectNewMockJob").build();
-        Trigger trigger = TriggerBuilder
-                .newTrigger()
-                .withIdentity("DetectNewMockTrigger")
-                .withSchedule(CronScheduleBuilder.cronSchedule("0 0/5 * ? * * *"))
-                .build();
-        try {
-            final Scheduler scheduler = new StdSchedulerFactory().getScheduler();
-            scheduler.start();
-            scheduler.scheduleJob(job, trigger);
-        } catch (Exception e) {
-            log.error("Fail to setup scheduler to detect new mock");
-        }
     }
 
     private static void startupWebServer() throws IOException {

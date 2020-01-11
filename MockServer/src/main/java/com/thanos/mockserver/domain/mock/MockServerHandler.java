@@ -5,10 +5,14 @@ import com.thanos.mockserver.domain.Contract;
 import com.thanos.mockserver.domain.Message;
 import com.thanos.mockserver.domain.Schema;
 import com.thanos.mockserver.domain.SimpleCache;
+import com.thanos.mockserver.infrastructure.ScheduleHelper;
 import com.thanos.mockserver.infrastructure.eventbus.EventBusFactory;
 import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.lambda.Unchecked;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -21,7 +25,7 @@ import java.util.stream.Collectors;
  * This is the handler for each MockServer thread
  */
 @Slf4j
-public class MockServerHandler implements Runnable {
+public class MockServerHandler implements Runnable, Job {
 
     private static final String CRLF = System.lineSeparator();
     private static final String MISMATCH_RESPONSE = "Incoming request does not match any existing contract";
@@ -30,12 +34,17 @@ public class MockServerHandler implements Runnable {
     private List<Contract> contractList;
     private List<Schema> schemaList;
 
-    public MockServerHandler(String index) {
-        this.index = index;
-        buildLocalCache();
+    public MockServerHandler() {
     }
 
-    void buildLocalCache() {
+    public MockServerHandler(String index) {
+        this.index = index;
+        buildLocalCache(index);
+        ScheduleHelper.addScheduler(
+                MockServerHandler.class, "UpdateCache", "0 0/1 * ? * * *", index);
+    }
+
+    synchronized void buildLocalCache(String index) {
         contractList = SimpleCache.getContracts().stream()
                 .filter(contract -> contract.getIndex().equals(index))
                 .collect(Collectors.toList());
@@ -111,4 +120,13 @@ public class MockServerHandler implements Runnable {
         }
         return Optional.empty();
     }
+
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        index = (String) jobExecutionContext.getMergedJobDataMap().get("index");
+        log.info("5mins Scheduler to refresh cache for MockServer {}", this.index);
+        buildLocalCache(index);
+    }
+
+
 }

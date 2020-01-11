@@ -3,6 +3,7 @@ package com.thanos.mockserver.controller;
 import com.thanos.mockserver.domain.Contract;
 import com.thanos.mockserver.domain.SimpleCache;
 import com.thanos.mockserver.domain.mock.MockServerHandler;
+import com.thanos.mockserver.infrastructure.ScheduleHelper;
 import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
@@ -20,11 +21,14 @@ public class MockServerController implements Job {
 
     public void init() {
         startNewMocks();
+
+        ScheduleHelper.addScheduler(
+                MockServerController.class, "DetectNewMock", "0 0/5 * ? * * *", null);
     }
     /**
      * Group mock server by provider-consumer
      */
-    void startNewMocks() {
+    synchronized void startNewMocks() {
         final List<String> existingIndex = SimpleCache.getMockInfoList().stream()
                 .map(NewMockEvent::getIndex).collect(Collectors.toList());
 
@@ -47,4 +51,5 @@ public class MockServerController implements Job {
         log.info("Scheduler to check new mock every 5 mins");
         startNewMocks();
     }
+
 }
