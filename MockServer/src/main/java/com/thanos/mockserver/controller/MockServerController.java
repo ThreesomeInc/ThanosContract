@@ -5,6 +5,9 @@ import com.thanos.mockserver.domain.SimpleCache;
 import com.thanos.mockserver.domain.mock.MockServerHandler;
 import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
 import java.util.List;
 import java.util.Set;
@@ -13,7 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class MockServerController {
+public class MockServerController implements Job {
 
     public void init() {
         startNewMocks();
@@ -39,4 +42,9 @@ public class MockServerController {
         executor.execute(new MockServerHandler(index));
     }
 
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        log.info("Scheduler to check new mock every 5 mins");
+        startNewMocks();
+    }
 }
