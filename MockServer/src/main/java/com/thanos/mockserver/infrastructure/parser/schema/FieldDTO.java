@@ -18,6 +18,6 @@ public class FieldDTO {
     String validation;
 
     public SchemaField toField() {
-        return new SchemaField(name, type, length, new Lexer().Lex(validation));
+        return new SchemaField(name, type, length, validation, new Lexer().Lex(validation));
     }
 }

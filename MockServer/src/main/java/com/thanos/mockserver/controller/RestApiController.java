@@ -2,7 +2,7 @@ package com.thanos.mockserver.controller;
 
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.Subscribe;
-import com.thanos.mockserver.domain.Contract;
+import com.thanos.mockserver.controller.dto.ContractResponse;
 import com.thanos.mockserver.domain.Schema;
 import com.thanos.mockserver.domain.SimpleCache;
 import com.thanos.mockserver.infrastructure.eventbus.EventBusFactory;
@@ -14,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Path("/apis")
@@ -40,8 +41,9 @@ public class RestApiController {
     @GET
     @Path("/contracts")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Contract> getAllContracts() {
-        return SimpleCache.getContracts();
+    public List<ContractResponse> getAllContracts() {
+        return SimpleCache.getContracts().stream().map(ContractResponse::new)
+                .collect(Collectors.toList());
     }
 
     @GET

@@ -10,12 +10,14 @@ public class SchemaField {
     String name;
     String type;
     Integer length;
+    String content;
     Validator validator;
 
-    public SchemaField(String name, String type, Integer length, Validator validator) {
+    public SchemaField(String name, String type, Integer length, String content, Validator validator) {
         this.name = name;
         this.type = type;
         this.length = length;
+        this.content = content;
         this.validator = validator;
     }
 
@@ -25,6 +27,11 @@ public class SchemaField {
 
     @Override
     public String toString() {
-        return "SchemaField{" + name + '|' + type + '|' + length + '|' + validator + '}';
+        return "SchemaField{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", length=" + length +
+                ", content='" + content + '\'' +
+                '}';
     }
 }
