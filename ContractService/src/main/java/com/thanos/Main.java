@@ -44,7 +44,7 @@ public class Main {
 
     static void addShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            log.info("Shutting down...");
+            log.info("Going to shutdown webServer ...");
             webServer.stop();
             mockServerController.shutdown();
             log.info("###########################################");
