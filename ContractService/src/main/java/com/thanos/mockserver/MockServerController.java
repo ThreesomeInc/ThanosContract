@@ -20,16 +20,19 @@ public class MockServerController implements Job {
     ExecutorService executor =
             Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
+    private List<String> existingIndex;
+
     public void init() {
         ScheduleHelper.addScheduler(
                 MockServerController.class, "DetectNewMock", "0 0/5 * ? * * *", null);
         startNewMocks();
     }
+
     /**
      * Group mock server by provider-consumer
      */
     synchronized void startNewMocks() {
-        final List<String> existingIndex = SimpleCache.getMockInfoList().stream()
+        existingIndex = SimpleCache.getMockInfoList().stream()
                 .map(NewMockEvent::getIndex).collect(Collectors.toList());
 
         final Set<String> indexs = SimpleCache.getContracts().stream()
@@ -44,10 +47,18 @@ public class MockServerController implements Job {
         executor.execute(new MockServerHandler(index));
     }
 
-    public void shutdown() {
-        log.info("Going to shutdown all MockServerHandler");
-        executor.shutdownNow();
-    }
+//    public void shutdown() {
+//        try {
+//            log.info("Going to shutdown all MockServerHandler");
+//            final List<Runnable> threads = executor.shutdownNow();
+//            executor.awaitTermination(5, TimeUnit.SECONDS);
+//        } catch (InterruptedException e) {
+//            log.warn("Task interrupted");
+//        } finally {
+//            executor.shutdownNow();
+//            log.info("MockServerHandler shutdown completed");
+//        }
+//    }
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {

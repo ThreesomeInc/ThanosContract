@@ -36,7 +36,7 @@ public class Main {
         addShutdownHook();
     }
 
-    static void printStartupLog() {
+    synchronized static void printStartupLog() {
         log.info("###########################################");
         log.info("            Service is up!                 ");
         log.info("###########################################");
@@ -46,7 +46,6 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             log.info("Going to shutdown webServer ...");
             webServer.stop();
-            mockServerController.shutdown();
             log.info("###########################################");
             log.info("           Shut down complete !            ");
             log.info("###########################################");

@@ -58,25 +58,23 @@ public class MockServerHandler implements Runnable, Job {
 
     @Override
     public void run() {
-        do {
-            try (ServerSocket ss = startServerSocket()) {
-                while (true) {
-                    Socket socket = ss.accept();
-                    log.info("Consumer: " + socket.getInetAddress().getLocalHost() + " connected");
-                    new Thread(Unchecked.runnable(() -> {
-                        String input = CharStreams.toString(new InputStreamReader(socket.getInputStream()));
+        try (ServerSocket ss = startServerSocket()) {
+            while (true) {
+                Socket socket = ss.accept();
+                log.info("Consumer: " + socket.getInetAddress().getLocalHost() + " connected");
+                new Thread(Unchecked.runnable(() -> {
+                    String input = CharStreams.toString(new InputStreamReader(socket.getInputStream()));
 
-                        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-                        bw.write(process(input) + CRLF);
-                        bw.flush();
-                        socket.shutdownOutput();
-                    })).start();
-                }
-            } catch (IOException | UncheckedIOException ioEx) {
-                log.warn("IOException when create socket");
-                ioEx.printStackTrace();
+                    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                    bw.write(process(input) + CRLF);
+                    bw.flush();
+                    socket.shutdownOutput();
+                })).start();
             }
-        } while (Thread.interrupted());
+        } catch (IOException | UncheckedIOException ioEx) {
+            log.warn("IOException when create socket");
+            ioEx.printStackTrace();
+        }
     }
 
     private ServerSocket startServerSocket() throws IOException {
