@@ -3,7 +3,7 @@ package com.thanos.mockserver.controller;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.Subscribe;
 import com.thanos.mockserver.controller.dto.ContractResponse;
-import com.thanos.mockserver.domain.Schema;
+import com.thanos.mockserver.controller.dto.SchemaResponse;
 import com.thanos.mockserver.domain.SimpleCache;
 import com.thanos.mockserver.infrastructure.eventbus.EventBusFactory;
 import com.thanos.mockserver.infrastructure.eventbus.NewMockEvent;
@@ -42,15 +42,16 @@ public class RestApiController {
     @Path("/contracts")
     @Produces(MediaType.APPLICATION_JSON)
     public List<ContractResponse> getAllContracts() {
-        return SimpleCache.getContracts().stream().map(ContractResponse::new)
-                .collect(Collectors.toList());
+        return SimpleCache.getContracts().stream()
+                .map(ContractResponse::new).collect(Collectors.toList());
     }
 
     @GET
     @Path("/schemas")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Schema> getAllSchemas() {
-        return SimpleCache.getSchemas();
+    public List<SchemaResponse> getAllSchemas() {
+        return SimpleCache.getSchemas().stream()
+                .map(SchemaResponse::new).collect(Collectors.toList());
     }
 
 
